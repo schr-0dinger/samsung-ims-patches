@@ -1,0 +1,481 @@
+diff -urN old/smali/com/sec/internal/ims/util/os/Debug.smali new/smali/com/sec/internal/ims/util/os/Debug.smali
+--- a/smali/com/sec/internal/ims/util/os/Debug.smali	2026-03-23 21:27:57.999859607 +0530
++++ b/smali/com/sec/internal/ims/util/os/Debug.smali	2026-03-23 21:27:58.000969500 +0530
+@@ -117,15 +117,6 @@
+     .registers 3
+ 
+     .line 36
+-    invoke-static {}, Landroid/os/Debug;->isProductShip()I
+-
+-    move-result v0
+-
+-    .line 37
+-    .local v0, "response":I
+-    if-nez v0, :cond_15
+-
+-    .line 38
+     const-string/jumbo v1, "true"
+ 
+     const-string/jumbo v2, "ro.product_ship"
+@@ -140,8 +131,6 @@
+ 
+     move v0, v1
+ 
+-    .line 41
+-    :cond_15
+     return v0
+ .end method
+ 
+diff -urN old/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali new/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali
+--- a/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali	2026-03-23 21:27:58.004053174 +0530
++++ b/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali	2026-03-23 21:27:58.004862653 +0530
+@@ -311,189 +311,24 @@
+ .end method
+ 
+ .method public getLteImsVoiceAvail()I
+-    .registers 5
+-
+-    .line 122
+-    :try_start_0
+-    const-class v0, Landroid/telephony/ServiceState;
+-
+-    const-string v1, "getLteImsVoiceAvail"
+-
+-    const/4 v2, 0x0
+-
+-    new-array v3, v2, [Ljava/lang/Class;
+-
+-    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v0
+-
+-    .line 123
+-    .local v0, "method":Ljava/lang/reflect/Method;
+-    iget-object v1, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v2, v2, [Ljava/lang/Object;
+-
+-    invoke-static {v0, v1, v2}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Ljava/lang/Integer;
+-
+-    invoke-virtual {v1}, Ljava/lang/Integer;->intValue()I
+-
+-    move-result v1
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_19} :catch_1a
+-
+-    return v1
+-
+-    .line 124
+-    .end local v0    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v0
+-
+-    .line 125
+-    .local v0, "e":Ljava/lang/NoSuchMethodException;
+-    invoke-virtual {v0}, Ljava/lang/NoSuchMethodException;->printStackTrace()V
++    .registers 2
+ 
+-    .line 128
+-    .end local v0    # "e":Ljava/lang/NoSuchMethodException;
+-    sget v0, Lcom/sec/ims/extensions/ServiceStateExt;->LTE_IMS_VOICE_AVAIL_UNKNOWN:I
++    const/4 v0, 0x1
+ 
+     return v0
+ .end method
+ 
+ .method public getLteIsEbSupported()I
+-    .registers 5
+-
+-    .line 133
+-    :try_start_0
+-    const-class v0, Landroid/telephony/ServiceState;
+-
+-    const-string v1, "getLteIsEbSupported"
+-
+-    const/4 v2, 0x0
+-
+-    new-array v3, v2, [Ljava/lang/Class;
+-
+-    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v0
+-
+-    .line 134
+-    .local v0, "method":Ljava/lang/reflect/Method;
+-    iget-object v1, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v2, v2, [Ljava/lang/Object;
+-
+-    invoke-static {v0, v1, v2}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Ljava/lang/Integer;
+-
+-    invoke-virtual {v1}, Ljava/lang/Integer;->intValue()I
+-
+-    move-result v1
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_19} :catch_1a
+-
+-    return v1
+-
+-    .line 135
+-    .end local v0    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v0
+-
+-    .line 136
+-    .local v0, "e":Ljava/lang/NoSuchMethodException;
+-    sget-object v1, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->TAG:Ljava/lang/String;
+-
+-    new-instance v2, Ljava/lang/StringBuilder;
+-
+-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+-
+-    invoke-virtual {v0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+-
+-    move-result-object v3
+-
+-    invoke-virtual {v3}, Ljava/lang/Class;->getSimpleName()Ljava/lang/String;
+-
+-    move-result-object v3
+-
+-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    const-string v3, "!! "
+-
+-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v0}, Ljava/lang/NoSuchMethodException;->getMessage()Ljava/lang/String;
+-
+-    move-result-object v3
+-
+-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+-
+-    move-result-object v2
+-
+-    invoke-static {v1, v2}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
++    .registers 2
+ 
+-    .line 139
+-    .end local v0    # "e":Ljava/lang/NoSuchMethodException;
+     const/4 v0, 0x1
+ 
+     return v0
+ .end method
+ 
+ .method public getMobileDataRegState()I
+-    .registers 5
+-
+-    .line 177
+-    :try_start_0
+-    const-class v0, Landroid/telephony/ServiceState;
+-
+-    const-string v1, "getMobileDataRegState"
+-
+-    const/4 v2, 0x0
+-
+-    new-array v3, v2, [Ljava/lang/Class;
+-
+-    invoke-virtual {v0, v1, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v0
+-
+-    .line 178
+-    .local v0, "method":Ljava/lang/reflect/Method;
+-    iget-object v1, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v2, v2, [Ljava/lang/Object;
+-
+-    invoke-static {v0, v1, v2}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Ljava/lang/Integer;
+-
+-    invoke-virtual {v1}, Ljava/lang/Integer;->intValue()I
+-
+-    move-result v1
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_19} :catch_1a
+-
+-    return v1
+-
+-    .line 179
+-    .end local v0    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v0
+-
+-    .line 180
+-    .local v0, "e":Ljava/lang/NoSuchMethodException;
+-    invoke-virtual {v0}, Ljava/lang/NoSuchMethodException;->printStackTrace()V
++    .registers 2
+ 
+-    .line 183
+-    .end local v0    # "e":Ljava/lang/NoSuchMethodException;
+     const/4 v0, 0x1
+ 
+     return v0
+@@ -590,53 +425,10 @@
+ .end method
+ 
+ .method public getRilMobileDataRadioTechnology()I
+-    .registers 5
+-
+-    .line 199
+-    const/4 v0, 0x0
+-
+-    :try_start_1
+-    const-class v1, Landroid/telephony/ServiceState;
+-
+-    const-string v2, "getRilMobileDataRadioTechnology"
+-
+-    new-array v3, v0, [Ljava/lang/Class;
+-
+-    invoke-virtual {v1, v2, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v1
+-
+-    .line 200
+-    .local v1, "method":Ljava/lang/reflect/Method;
+-    iget-object v2, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v3, v0, [Ljava/lang/Object;
+-
+-    invoke-static {v1, v2, v3}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v2
+-
+-    check-cast v2, Ljava/lang/Integer;
+-
+-    invoke-virtual {v2}, Ljava/lang/Integer;->intValue()I
+-
+-    move-result v0
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_1 .. :try_end_19} :catch_1a
+-
+-    return v0
+-
+-    .line 201
+-    .end local v1    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v1
++    .registers 2
+ 
+-    .line 202
+-    .local v1, "e":Ljava/lang/NoSuchMethodException;
+-    invoke-virtual {v1}, Ljava/lang/NoSuchMethodException;->printStackTrace()V
++    const/16 v0, 0xe
+ 
+-    .line 205
+-    .end local v1    # "e":Ljava/lang/NoSuchMethodException;
+     return v0
+ .end method
+ 
+@@ -705,53 +497,10 @@
+ .end method
+ 
+ .method public getSnapshotStatus()I
+-    .registers 5
++    .registers 2
+ 
+-    .line 222
+     const/4 v0, 0x0
+ 
+-    :try_start_1
+-    const-class v1, Landroid/telephony/ServiceState;
+-
+-    const-string v2, "getSnapshotStatus"
+-
+-    new-array v3, v0, [Ljava/lang/Class;
+-
+-    invoke-virtual {v1, v2, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v1
+-
+-    .line 223
+-    .local v1, "method":Ljava/lang/reflect/Method;
+-    iget-object v2, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v3, v0, [Ljava/lang/Object;
+-
+-    invoke-static {v1, v2, v3}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v2
+-
+-    check-cast v2, Ljava/lang/Integer;
+-
+-    invoke-virtual {v2}, Ljava/lang/Integer;->intValue()I
+-
+-    move-result v0
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_1 .. :try_end_19} :catch_1a
+-
+-    return v0
+-
+-    .line 224
+-    .end local v1    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v1
+-
+-    .line 225
+-    .local v1, "e":Ljava/lang/NoSuchMethodException;
+-    invoke-virtual {v1}, Ljava/lang/NoSuchMethodException;->printStackTrace()V
+-
+-    .line 228
+-    .end local v1    # "e":Ljava/lang/NoSuchMethodException;
+     return v0
+ .end method
+ 
+@@ -975,53 +724,10 @@
+ .end method
+ 
+ .method public isPsOnlyReg()Z
+-    .registers 5
+-
+-    .line 244
+-    const/4 v0, 0x0
+-
+-    :try_start_1
+-    const-class v1, Landroid/telephony/ServiceState;
+-
+-    const-string v2, "isPsOnlyReg"
+-
+-    new-array v3, v0, [Ljava/lang/Class;
+-
+-    invoke-virtual {v1, v2, v3}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+-
+-    move-result-object v1
+-
+-    .line 245
+-    .local v1, "method":Ljava/lang/reflect/Method;
+-    iget-object v2, p0, Lcom/sec/internal/ims/util/os/ServiceStateWrapper;->mServiceState:Landroid/telephony/ServiceState;
+-
+-    new-array v3, v0, [Ljava/lang/Object;
+-
+-    invoke-static {v1, v2, v3}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke2(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v2
+-
+-    check-cast v2, Ljava/lang/Boolean;
+-
+-    invoke-virtual {v2}, Ljava/lang/Boolean;->booleanValue()Z
+-
+-    move-result v0
+-    :try_end_19
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_1 .. :try_end_19} :catch_1a
+-
+-    return v0
+-
+-    .line 246
+-    .end local v1    # "method":Ljava/lang/reflect/Method;
+-    :catch_1a
+-    move-exception v1
++    .registers 2
+ 
+-    .line 247
+-    .local v1, "e":Ljava/lang/NoSuchMethodException;
+-    invoke-virtual {v1}, Ljava/lang/NoSuchMethodException;->printStackTrace()V
++    const/4 v0, 0x1
+ 
+-    .line 250
+-    .end local v1    # "e":Ljava/lang/NoSuchMethodException;
+     return v0
+ .end method
+ 
+diff -urN old/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali new/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali
+--- a/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali	2026-03-23 21:27:58.008011407 +0530
++++ b/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali	2026-03-23 21:27:58.008876969 +0530
+@@ -4917,24 +4917,20 @@
+     .local v0, "subId":I
+     const-class v1, Landroid/telephony/TelephonyManager;
+ 
+-    const-string/jumbo v2, "setImsRegistrationStateForSlot"
++    const-string/jumbo v2, "setImsRegistrationState"
+ 
+-    const/4 v3, 0x2
++    const/4 v3, 0x1
+ 
+     new-array v4, v3, [Ljava/lang/Class;
+ 
+-    sget-object v5, Ljava/lang/Integer;->TYPE:Ljava/lang/Class;
++    sget-object v5, Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;
+ 
+     const/4 v6, 0x0
+ 
+     aput-object v5, v4, v6
+ 
+-    sget-object v5, Ljava/lang/Boolean;->TYPE:Ljava/lang/Class;
+-
+     const/4 v7, 0x1
+ 
+-    aput-object v5, v4, v7
+-
+     invoke-virtual {v1, v2, v4}, Ljava/lang/Class;->getMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;
+ 
+     move-result-object v1
+@@ -4947,17 +4943,11 @@
+ 
+     new-array v3, v3, [Ljava/lang/Object;
+ 
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v4
+-
+-    aput-object v4, v3, v6
+-
+     invoke-static {p2}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+ 
+     move-result-object v4
+ 
+-    aput-object v4, v3, v7
++    aput-object v4, v3, v6
+ 
+     invoke-static {v1, v2, v3}, Lcom/sec/ims/extensions/ReflectionUtils;->invoke(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)V
+ 
+@@ -4968,7 +4958,7 @@
+ 
+     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string/jumbo v4, "setImsRegistrationStateForSlot : subId:"
++    const-string/jumbo v4, "setImsRegistrationState : subId:"
+ 
+     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -4985,16 +4975,16 @@
+     move-result-object v3
+ 
+     invoke-static {v2, p1, v3}, Lcom/sec/internal/ims/util/IMSLog;->d(Ljava/lang/String;ILjava/lang/String;)V
+-    :try_end_4e
+-    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_4e} :catch_4f
++    :try_end_44
++    .catch Ljava/lang/NoSuchMethodException; {:try_start_0 .. :try_end_44} :catch_45
+ 
+     .line 1045
+     .end local v0    # "subId":I
+     .end local v1    # "method":Ljava/lang/reflect/Method;
+-    goto :goto_53
++    goto :goto_49
+ 
+     .line 1043
+-    :catch_4f
++    :catch_45
+     move-exception v0
+ 
+     .line 1044
+@@ -5003,7 +4993,7 @@
+ 
+     .line 1046
+     .end local v0    # "e":Ljava/lang/NoSuchMethodException;
+-    :goto_53
++    :goto_49
+     return-void
+ .end method
+ 

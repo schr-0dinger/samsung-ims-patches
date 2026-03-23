@@ -1,0 +1,657 @@
+diff -urN old/smali/com/sec/internal/ims/im/ImModule.smali new/smali/com/sec/internal/ims/im/ImModule.smali
+--- a/smali/com/sec/internal/ims/im/ImModule.smali	2026-03-23 21:27:58.106559730 +0530
++++ b/smali/com/sec/internal/ims/im/ImModule.smali	2026-03-23 21:27:58.107746044 +0530
+@@ -22615,7 +22615,7 @@
+     .line 5894
+     sget-object v0, Lcom/sec/internal/ims/im/ImModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "notifyImSessionClosed"
++    const-string/jumbo v1, "notifyImSessionClosed"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -22624,7 +22624,7 @@
+ 
+     move-result-object v0
+ 
+-    if-eqz v0, :cond_12
++    if-eqz v0, :cond_13
+ 
+     .line 5896
+     iget-object v0, p0, Lcom/sec/internal/ims/im/ImModule;->mRegistrationManager:Lcom/sec/internal/ims/imsservice/RegistrationManagerBase;
+@@ -22632,7 +22632,7 @@
+     invoke-virtual {v0}, Lcom/sec/internal/ims/imsservice/RegistrationManagerBase;->doPendingUpdateRegistration()V
+ 
+     .line 5898
+-    :cond_12
++    :cond_13
+     iget-object v0, p0, Lcom/sec/internal/ims/im/ImModule;->mImSessionListener:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -22643,7 +22643,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_48
++    if-eqz v0, :cond_4a
+ 
+     .line 5899
+     iget-object v0, p0, Lcom/sec/internal/ims/im/ImModule;->mImSessionListener:Ljava/util/Map;
+@@ -22664,12 +22664,12 @@
+ 
+     move-result-object v1
+ 
+-    :goto_2e
++    :goto_2f
+     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_48
++    if-eqz v2, :cond_4a
+ 
+     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -22681,35 +22681,35 @@
+     .local v2, "listener":Lcom/sec/ims/im/IImSessionListener;
+     const/4 v3, 0x0
+ 
+-    :try_start_3b
++    :try_start_3c
+     invoke-interface {v2, v3}, Lcom/sec/ims/im/IImSessionListener;->onImSessionEstablished(Z)V
+-    :try_end_3e
+-    .catch Landroid/os/RemoteException; {:try_start_3b .. :try_end_3e} :catch_3f
++    :try_end_3f
++    .catch Landroid/os/RemoteException; {:try_start_3c .. :try_end_3f} :catch_40
+ 
+     .line 5907
+-    goto :goto_47
++    goto :goto_49
+ 
+     .line 5903
+-    :catch_3f
++    :catch_40
+     move-exception v3
+ 
+     .line 5904
+     .local v3, "e":Landroid/os/RemoteException;
+     sget-object v4, Lcom/sec/internal/ims/im/ImModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v5, "notifyImSessionClosed failed to send IImSessionListener.onImSessionEstablished"
++    const-string/jumbo v5, "notifyImSessionClosed failed to send IImSessionListener.onImSessionEstablished"
+ 
+     invoke-static {v4, v5}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 5908
+     .end local v2    # "listener":Lcom/sec/ims/im/IImSessionListener;
+     .end local v3    # "e":Landroid/os/RemoteException;
+-    :goto_47
+-    goto :goto_2e
++    :goto_49
++    goto :goto_2f
+ 
+     .line 5910
+     .end local v0    # "listeners":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Lcom/sec/ims/im/IImSessionListener;>;"
+-    :cond_48
++    :cond_4a
+     return-void
+ .end method
+ 
+diff -urN old/smali/com/sec/internal/tapi/service/api/ChatServiceImpl.smali new/smali/com/sec/internal/tapi/service/api/ChatServiceImpl.smali
+--- a/smali/com/sec/internal/tapi/service/api/ChatServiceImpl.smali	2026-03-23 21:27:58.111340384 +0530
++++ b/smali/com/sec/internal/tapi/service/api/ChatServiceImpl.smali	2026-03-23 21:27:58.112188093 +0530
+@@ -3658,7 +3658,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "notifyGroupChateStateChanged  chatId = "
++    const-string/jumbo v2, "notifyGroupChateStateChanged  chatId = "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3680,18 +3680,18 @@
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+     .line 273
+-    if-nez p3, :cond_25
++    if-nez p3, :cond_26
+ 
+     const-string v2, ""
+ 
+-    goto :goto_29
++    goto :goto_2a
+ 
+-    :cond_25
++    :cond_26
+     invoke-virtual {p3}, Lcom/gsma/services/rcs/chat/GroupChat$ReasonCode;->name()Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+-    :goto_29
++    :goto_2a
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+@@ -3707,7 +3707,7 @@
+     monitor-enter v0
+ 
+     .line 276
+-    :try_start_36
++    :try_start_37
+     sget-object v1, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatSessions:Ljava/util/Hashtable;
+ 
+     invoke-virtual {v1, p1}, Ljava/util/Hashtable;->get(Ljava/lang/Object;)Ljava/lang/Object;
+@@ -3718,7 +3718,7 @@
+ 
+     .line 277
+     .local v1, "groupImpl":Lcom/sec/internal/tapi/service/api/GroupChatImpl;
+-    if-nez v1, :cond_4a
++    if-nez v1, :cond_4b
+ 
+     .line 278
+     sget-object v2, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+@@ -3733,7 +3733,7 @@
+     return-void
+ 
+     .line 282
+-    :cond_4a
++    :cond_4b
+     iget-object v2, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v2}, Landroid/os/RemoteCallbackList;->beginBroadcast()I
+@@ -3748,7 +3748,7 @@
+ 
+     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v5, "notifyGroupChateStateChanged -- listener size: "
++    const-string/jumbo v5, "notifyGroupChateStateChanged -- listener size: "
+ 
+     invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3759,31 +3759,31 @@
+     move-result-object v4
+ 
+     invoke-static {v3, v4}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+-    :try_end_66
+-    .catchall {:try_start_36 .. :try_end_66} :catchall_95
++    :try_end_68
++    .catchall {:try_start_37 .. :try_end_68} :catchall_98
+ 
+     .line 284
+     const/4 v3, 0x0
+ 
+     .local v3, "i":I
+-    :goto_67
+-    if-ge v3, v2, :cond_8e
++    :goto_69
++    if-ge v3, v2, :cond_91
+ 
+     .line 286
+-    if-nez p3, :cond_73
++    if-nez p3, :cond_76
+ 
+     .line 287
+-    :try_start_6b
++    :try_start_6d
+     sget-object v4, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v5, "notifyGroupChateStateChanged:  reasonCode is NULL "
++    const-string/jumbo v5, "notifyGroupChateStateChanged:  reasonCode is NULL "
+ 
+     invoke-static {v4, v5}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+ 
+-    goto :goto_86
++    goto :goto_89
+ 
+     .line 289
+-    :cond_73
++    :cond_76
+     iget-object v4, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v4, v3}, Landroid/os/RemoteCallbackList;->getBroadcastItem(I)Landroid/os/IInterface;
+@@ -3804,33 +3804,33 @@
+ 
+     .line 289
+     invoke-interface {v4, p1, v5, v6}, Lcom/gsma/services/rcs/chat/IGroupChatListener;->onStateChanged(Ljava/lang/String;II)V
+-    :try_end_86
+-    .catch Landroid/os/RemoteException; {:try_start_6b .. :try_end_86} :catch_87
+-    .catchall {:try_start_6b .. :try_end_86} :catchall_95
++    :try_end_89
++    .catch Landroid/os/RemoteException; {:try_start_6d .. :try_end_89} :catch_8a
++    .catchall {:try_start_6d .. :try_end_89} :catchall_98
+ 
+     .line 295
+-    :goto_86
+-    goto :goto_8b
++    :goto_89
++    goto :goto_8e
+ 
+     .line 293
+-    :catch_87
++    :catch_8a
+     move-exception v4
+ 
+     .line 294
+     .local v4, "e":Landroid/os/RemoteException;
+-    :try_start_88
++    :try_start_8b
+     invoke-virtual {v4}, Landroid/os/RemoteException;->printStackTrace()V
+ 
+     .line 284
+     .end local v4    # "e":Landroid/os/RemoteException;
+-    :goto_8b
++    :goto_8e
+     add-int/lit8 v3, v3, 0x1
+ 
+-    goto :goto_67
++    goto :goto_69
+ 
+     .line 297
+     .end local v3    # "i":I
+-    :cond_8e
++    :cond_91
+     iget-object v3, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v3}, Landroid/os/RemoteCallbackList;->finishBroadcast()V
+@@ -3844,12 +3844,12 @@
+     return-void
+ 
+     .line 298
+-    :catchall_95
++    :catchall_98
+     move-exception v1
+ 
+     monitor-exit v0
+-    :try_end_97
+-    .catchall {:try_start_88 .. :try_end_97} :catchall_95
++    :try_end_9a
++    .catchall {:try_start_8b .. :try_end_9a} :catchall_98
+ 
+     throw v1
+ .end method
+@@ -3863,7 +3863,7 @@
+     .line 306
+     sget-object v0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "notifyGroupMessageStateChanged"
++    const-string/jumbo v1, "notifyGroupMessageStateChanged"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -3873,7 +3873,7 @@
+     monitor-enter v0
+ 
+     .line 308
+-    :try_start_a
++    :try_start_b
+     invoke-virtual {p1}, Lcom/sec/internal/ims/im/MessageBase;->getId()I
+ 
+     move-result v1
+@@ -3906,13 +3906,13 @@
+ 
+     .line 313
+     .local v8, "session":Lcom/sec/internal/ims/im/ImSession;
+-    if-eqz v8, :cond_33
++    if-eqz v8, :cond_34
+ 
+     invoke-virtual {v8}, Lcom/sec/internal/ims/im/ImSession;->isGroupChat()Z
+ 
+     move-result v2
+ 
+-    if-nez v2, :cond_33
++    if-nez v2, :cond_34
+ 
+     .line 314
+     sget-object v2, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+@@ -3927,14 +3927,14 @@
+     return-void
+ 
+     .line 317
+-    :cond_33
++    :cond_34
+     iget-object v2, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v2}, Landroid/os/RemoteCallbackList;->beginBroadcast()I
+ 
+     move-result v2
+-    :try_end_39
+-    .catchall {:try_start_a .. :try_end_39} :catchall_61
++    :try_end_3a
++    .catchall {:try_start_b .. :try_end_3a} :catchall_62
+ 
+     move v9, v2
+ 
+@@ -3945,11 +3945,11 @@
+     move v10, v2
+ 
+     .local v10, "i":I
+-    :goto_3c
+-    if-ge v10, v9, :cond_5a
++    :goto_3d
++    if-ge v10, v9, :cond_5b
+ 
+     .line 320
+-    :try_start_3e
++    :try_start_3f
+     iget-object v2, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v2, v10}, Landroid/os/RemoteCallbackList;->getBroadcastItem(I)Landroid/os/IInterface;
+@@ -3971,32 +3971,32 @@
+     move-object v3, v1
+ 
+     invoke-interface/range {v2 .. v7}, Lcom/gsma/services/rcs/chat/IGroupChatListener;->onMessageStatusChanged(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
+-    :try_end_52
+-    .catch Landroid/os/RemoteException; {:try_start_3e .. :try_end_52} :catch_53
+-    .catchall {:try_start_3e .. :try_end_52} :catchall_61
++    :try_end_53
++    .catch Landroid/os/RemoteException; {:try_start_3f .. :try_end_53} :catch_54
++    .catchall {:try_start_3f .. :try_end_53} :catchall_62
+ 
+     .line 324
+-    goto :goto_57
++    goto :goto_58
+ 
+     .line 322
+-    :catch_53
++    :catch_54
+     move-exception v2
+ 
+     .line 323
+     .local v2, "e":Landroid/os/RemoteException;
+-    :try_start_54
++    :try_start_55
+     invoke-virtual {v2}, Landroid/os/RemoteException;->printStackTrace()V
+ 
+     .line 318
+     .end local v2    # "e":Landroid/os/RemoteException;
+-    :goto_57
++    :goto_58
+     add-int/lit8 v10, v10, 0x1
+ 
+-    goto :goto_3c
++    goto :goto_3d
+ 
+     .line 326
+     .end local v10    # "i":I
+-    :cond_5a
++    :cond_5b
+     iget-object v2, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v2}, Landroid/os/RemoteCallbackList;->finishBroadcast()V
+@@ -4013,12 +4013,12 @@
+     return-void
+ 
+     .line 327
+-    :catchall_61
++    :catchall_62
+     move-exception v1
+ 
+     monitor-exit v0
+-    :try_end_63
+-    .catchall {:try_start_54 .. :try_end_63} :catchall_61
++    :try_end_64
++    .catchall {:try_start_55 .. :try_end_64} :catchall_62
+ 
+     throw v1
+ .end method
+@@ -4030,7 +4030,7 @@
+     .line 401
+     sget-object v0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "notifyGroupParticipantInfoChanged"
++    const-string/jumbo v1, "notifyGroupParticipantInfoChanged"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -4040,7 +4040,7 @@
+     monitor-enter v0
+ 
+     .line 403
+-    :try_start_a
++    :try_start_b
+     invoke-virtual {p1}, Lcom/sec/internal/ims/im/ImParticipant;->getStatus()Lcom/sec/internal/ims/im/ImParticipant$Status;
+ 
+     move-result-object v1
+@@ -4077,19 +4077,19 @@
+     invoke-virtual {v4}, Landroid/os/RemoteCallbackList;->beginBroadcast()I
+ 
+     move-result v4
+-    :try_end_29
+-    .catchall {:try_start_a .. :try_end_29} :catchall_4a
++    :try_end_2a
++    .catchall {:try_start_b .. :try_end_2a} :catchall_4b
+ 
+     .line 408
+     .local v4, "N":I
+     const/4 v5, 0x0
+ 
+     .local v5, "i":I
+-    :goto_2a
+-    if-ge v5, v4, :cond_43
++    :goto_2b
++    if-ge v5, v4, :cond_44
+ 
+     .line 410
+-    :try_start_2c
++    :try_start_2d
+     iget-object v6, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v6, v5}, Landroid/os/RemoteCallbackList;->getBroadcastItem(I)Landroid/os/IInterface;
+@@ -4105,32 +4105,32 @@
+ 
+     .line 410
+     invoke-interface {v6, v7, v2, v3}, Lcom/gsma/services/rcs/chat/IGroupChatListener;->onParticipantStatusChanged(Ljava/lang/String;Lcom/gsma/services/rcs/contact/ContactId;Lcom/gsma/services/rcs/chat/GroupChat$ParticipantStatus;)V
+-    :try_end_3b
+-    .catch Landroid/os/RemoteException; {:try_start_2c .. :try_end_3b} :catch_3c
+-    .catchall {:try_start_2c .. :try_end_3b} :catchall_4a
++    :try_end_3c
++    .catch Landroid/os/RemoteException; {:try_start_2d .. :try_end_3c} :catch_3d
++    .catchall {:try_start_2d .. :try_end_3c} :catchall_4b
+ 
+     .line 415
+-    goto :goto_40
++    goto :goto_41
+ 
+     .line 413
+-    :catch_3c
++    :catch_3d
+     move-exception v6
+ 
+     .line 414
+     .local v6, "e":Landroid/os/RemoteException;
+-    :try_start_3d
++    :try_start_3e
+     invoke-virtual {v6}, Landroid/os/RemoteException;->printStackTrace()V
+ 
+     .line 408
+     .end local v6    # "e":Landroid/os/RemoteException;
+-    :goto_40
++    :goto_41
+     add-int/lit8 v5, v5, 0x1
+ 
+-    goto :goto_2a
++    goto :goto_2b
+ 
+     .line 417
+     .end local v5    # "i":I
+-    :cond_43
++    :cond_44
+     iget-object v5, p0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v5}, Landroid/os/RemoteCallbackList;->finishBroadcast()V
+@@ -4146,12 +4146,12 @@
+     return-void
+ 
+     .line 418
+-    :catchall_4a
++    :catchall_4b
+     move-exception v1
+ 
+     monitor-exit v0
+-    :try_end_4c
+-    .catchall {:try_start_3d .. :try_end_4c} :catchall_4a
++    :try_end_4d
++    .catchall {:try_start_3e .. :try_end_4d} :catchall_4b
+ 
+     throw v1
+ .end method
+@@ -4167,7 +4167,7 @@
+ 
+     sget-object v0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v2, "notifyGroupDeliveryInfoChanged"
++    const-string/jumbo v2, "notifyGroupDeliveryInfoChanged"
+ 
+     invoke-static {v0, v2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -4177,7 +4177,7 @@
+     monitor-enter v2
+ 
+     .line 366
+-    :try_start_c
++    :try_start_d
+     invoke-virtual/range {p1 .. p1}, Lcom/sec/internal/ims/im/ImMessage;->getChatId()Ljava/lang/String;
+ 
+     move-result-object v0
+@@ -4196,18 +4196,18 @@
+ 
+     .line 368
+     .local v11, "session":Lcom/sec/internal/ims/im/ImSession;
+-    if-eqz v11, :cond_7e
++    if-eqz v11, :cond_80
+ 
+     invoke-virtual {v11}, Lcom/sec/internal/ims/im/ImSession;->isGroupChat()Z
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_21
++    if-nez v0, :cond_22
+ 
+-    goto :goto_7e
++    goto :goto_80
+ 
+     .line 373
+-    :cond_21
++    :cond_22
+     invoke-virtual/range {p1 .. p1}, Lcom/sec/internal/ims/im/ImMessage;->getId()I
+ 
+     move-result v0
+@@ -4232,12 +4232,12 @@
+ 
+     .line 376
+     .local v12, "remoteUri":Lcom/sec/ims/util/ImsUri;
+-    if-nez v12, :cond_3d
++    if-nez v12, :cond_3f
+ 
+     .line 377
+     sget-object v0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v3, "notifyGroupDeliveryInfoChanged remoteUri is null"
++    const-string/jumbo v3, "notifyGroupDeliveryInfoChanged remoteUri is null"
+ 
+     invoke-static {v0, v3}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -4247,7 +4247,7 @@
+     return-void
+ 
+     .line 381
+-    :cond_3d
++    :cond_3f
+     invoke-virtual/range {p1 .. p1}, Lcom/sec/internal/ims/im/ImMessage;->getRemoteUri()Lcom/sec/ims/util/ImsUri;
+ 
+     move-result-object v0
+@@ -4275,8 +4275,8 @@
+     invoke-virtual {v0}, Landroid/os/RemoteCallbackList;->beginBroadcast()I
+ 
+     move-result v0
+-    :try_end_55
+-    .catchall {:try_start_c .. :try_end_55} :catchall_88
++    :try_end_57
++    .catchall {:try_start_d .. :try_end_57} :catchall_8a
+ 
+     move v14, v0
+ 
+@@ -4287,11 +4287,11 @@
+     move v15, v0
+ 
+     .local v15, "i":I
+-    :goto_58
+-    if-ge v15, v14, :cond_77
++    :goto_5a
++    if-ge v15, v14, :cond_79
+ 
+     .line 386
+-    :try_start_5a
++    :try_start_5c
+     iget-object v0, v1, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v0, v15}, Landroid/os/RemoteCallbackList;->getBroadcastItem(I)Landroid/os/IInterface;
+@@ -4315,32 +4315,32 @@
+     move-object v4, v10
+ 
+     invoke-interface/range {v3 .. v9}, Lcom/gsma/services/rcs/chat/IGroupChatListener;->onMessageGroupDeliveryInfoChanged(Ljava/lang/String;Lcom/gsma/services/rcs/contact/ContactId;Ljava/lang/String;Ljava/lang/String;II)V
+-    :try_end_6f
+-    .catch Landroid/os/RemoteException; {:try_start_5a .. :try_end_6f} :catch_70
+-    .catchall {:try_start_5a .. :try_end_6f} :catchall_88
++    :try_end_71
++    .catch Landroid/os/RemoteException; {:try_start_5c .. :try_end_71} :catch_72
++    .catchall {:try_start_5c .. :try_end_71} :catchall_8a
+ 
+     .line 391
+-    goto :goto_74
++    goto :goto_76
+ 
+     .line 389
+-    :catch_70
++    :catch_72
+     move-exception v0
+ 
+     .line 390
+     .local v0, "e":Landroid/os/RemoteException;
+-    :try_start_71
++    :try_start_73
+     invoke-virtual {v0}, Landroid/os/RemoteException;->printStackTrace()V
+ 
+     .line 384
+     .end local v0    # "e":Landroid/os/RemoteException;
+-    :goto_74
++    :goto_76
+     add-int/lit8 v15, v15, 0x1
+ 
+-    goto :goto_58
++    goto :goto_5a
+ 
+     .line 393
+     .end local v15    # "i":I
+-    :cond_77
++    :cond_79
+     iget-object v0, v1, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->mGroupChatListeners:Landroid/os/RemoteCallbackList;
+ 
+     invoke-virtual {v0}, Landroid/os/RemoteCallbackList;->finishBroadcast()V
+@@ -4362,8 +4362,8 @@
+     .line 369
+     .restart local v10    # "chatId":Ljava/lang/String;
+     .restart local v11    # "session":Lcom/sec/internal/ims/im/ImSession;
+-    :cond_7e
+-    :goto_7e
++    :cond_80
++    :goto_80
+     sget-object v0, Lcom/sec/internal/tapi/service/api/ChatServiceImpl;->LOG_TAG:Ljava/lang/String;
+ 
+     const-string/jumbo v3, "notifyMessageGroupDeliveryInfoChanged: Not group chat, drop out"
+@@ -4378,12 +4378,12 @@
+     .line 394
+     .end local v10    # "chatId":Ljava/lang/String;
+     .end local v11    # "session":Lcom/sec/internal/ims/im/ImSession;
+-    :catchall_88
++    :catchall_8a
+     move-exception v0
+ 
+     monitor-exit v2
+-    :try_end_8a
+-    .catchall {:try_start_71 .. :try_end_8a} :catchall_88
++    :try_end_8c
++    .catchall {:try_start_73 .. :try_end_8c} :catchall_8a
+ 
+     throw v0
+ .end method

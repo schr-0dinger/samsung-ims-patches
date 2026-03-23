@@ -1,0 +1,7 @@
+component,variant,sha256,path,notes
+imsservice.apk,stock-baseline,71b1c6a449cb568309552588d9a73b0fdb10499d28c4568f814f11b3e73f0ac8,/path/to/stock/imsservice.apk,raw stock-style baseline used for stage diffs
+imsservice.apk,patched-mainline,3ace40ded2a4b96f1673cc9d78ca83bc48127b537cec23ce4dc37439d87bb6a7,/path/to/patched/imsservice.apk,example patched output used for stages 02-04
+imsservice.apk,mt-experiment,141c2ea6dcc34df912e73fe0bc3d0a1a23ccdc89c1fadb55a4ece88e5a1668fe,/path/to/experimental/imsservice-mtcallfix-signed.apk,incoming-call experiment build used as stage 05 example output
+imsmanager.jar,stock-input,4b03b4814b712c66e89597bc7eed5c7d53d547ab4217c6155e05a787e29ba613,/path/to/stock/imsmanager.jar,raw imsmanager input used for stage 01
+imsmanager.jar,patched-mainline,9d791bb15d8ee182a65ea835ea0830eb7fcf1e106015d9e9ec1c457eb104babb,/path/to/patched/imsmanager.jar,example patched imsmanager output used as stage 01 target
+ImsTelephonyService.apk,reference-component,8e13c04e555c086cde92aea310d873b134dacb6feccebb6ae2d29287f75bcd65,/path/to/reference/ImsTelephonyService.apk,kept for integration completeness; no stable code patch exported yet

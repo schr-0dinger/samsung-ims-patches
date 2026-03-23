@@ -1,0 +1,5515 @@
+diff -urN old/smali/com/google/ims/GoogleImsService$ImsNotifier.smali new/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
+--- a/smali/com/google/ims/GoogleImsService$ImsNotifier.smali	2026-03-23 21:27:58.081251912 +0530
++++ b/smali/com/google/ims/GoogleImsService$ImsNotifier.smali	2026-03-23 21:27:58.082216997 +0530
+@@ -32,7 +32,7 @@
+ 
+ # direct methods
+ .method public constructor <init>(Lcom/google/ims/GoogleImsService;)V
+-    .registers 3
++    .locals 1
+     .param p1, "this$0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 1336
+@@ -52,7 +52,7 @@
+ .end method
+ 
+ .method private notifyRegistrationCallback(Lcom/sec/ims/ImsRegistration;ZLcom/sec/ims/ImsRegistrationError;)V
+-    .registers 13
++    .locals 9
+     .param p1, "reg"    # Lcom/sec/ims/ImsRegistration;
+     .param p2, "registered"    # Z
+     .param p3, "error"    # Lcom/sec/ims/ImsRegistrationError;
+@@ -103,7 +103,7 @@
+ 
+     .line 1393
+     .local v2, "callback":Landroid/telephony/ims/aidl/IImsRegistrationCallback;
+-    if-eqz v0, :cond_a7
++    if-eqz v0, :cond_3
+ 
+     .line 1394
+     invoke-virtual {v0}, Landroid/os/RemoteCallbackList;->beginBroadcast()I
+@@ -132,11 +132,11 @@
+     const/4 v4, 0x0
+ 
+     .local v4, "i":I
+-    :goto_46
+-    if-ge v4, v3, :cond_a3
++    :goto_0
++    if-ge v4, v3, :cond_2
+ 
+     .line 1399
+-    :try_start_48
++    :try_start_0
+     invoke-virtual {v0, v4}, Landroid/os/RemoteCallbackList;->getBroadcastItem(I)Landroid/os/IInterface;
+ 
+     move-result-object v5
+@@ -146,10 +146,10 @@
+     move-object v2, v5
+ 
+     .line 1401
+-    if-eqz v2, :cond_96
++    if-eqz v2, :cond_1
+ 
+     .line 1402
+-    if-eqz p2, :cond_7b
++    if-eqz p2, :cond_0
+ 
+     .line 1403
+     const/4 v5, 0x0
+@@ -163,17 +163,15 @@
+ 
+     move-result v6
+ 
+-    # invokes: Lcom/google/ims/GoogleImsService;->isOwnUrisChanged(ILcom/sec/ims/ImsRegistration;)Z
+     invoke-static {v5, v6, p1}, Lcom/google/ims/GoogleImsService;->access$100(Lcom/google/ims/GoogleImsService;ILcom/sec/ims/ImsRegistration;)Z
+ 
+     move-result v5
+ 
+-    if-eqz v5, :cond_96
++    if-eqz v5, :cond_1
+ 
+     .line 1405
+     iget-object v5, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mOwnUris:Ljava/util/Map;
+     invoke-static {v5}, Lcom/google/ims/GoogleImsService;->access$200(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+ 
+     move-result-object v5
+@@ -194,10 +192,10 @@
+ 
+     invoke-interface {v2, v5}, Landroid/telephony/ims/aidl/IImsRegistrationCallback;->onSubscriberAssociatedUriChanged([Landroid/net/Uri;)V
+ 
+-    goto :goto_96
++    goto :goto_1
+ 
+     .line 1408
+-    :cond_7b
++    :cond_0
+     new-instance v5, Landroid/telephony/ims/ImsReasonInfo;
+ 
+     invoke-virtual {p3}, Lcom/sec/ims/ImsRegistrationError;->getSipErrorCode()I
+@@ -224,17 +222,17 @@
+     new-array v6, v6, [Landroid/net/Uri;
+ 
+     invoke-interface {v2, v6}, Landroid/telephony/ims/aidl/IImsRegistrationCallback;->onSubscriberAssociatedUriChanged([Landroid/net/Uri;)V
+-    :try_end_96
+-    .catch Landroid/os/RemoteException; {:try_start_48 .. :try_end_96} :catch_97
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1416
+     .end local v5    # "reasonInfo":Landroid/telephony/ims/ImsReasonInfo;
+-    :cond_96
+-    :goto_96
+-    goto :goto_a0
++    :cond_1
++    :goto_1
++    goto :goto_2
+ 
+     .line 1413
+-    :catch_97
++    :catch_0
+     move-exception v5
+ 
+     .line 1414
+@@ -248,33 +246,33 @@
+ 
+     .line 1397
+     .end local v5    # "e":Landroid/os/RemoteException;
+-    :goto_a0
++    :goto_2
+     add-int/lit8 v4, v4, 0x1
+ 
+-    goto :goto_46
++    goto :goto_0
+ 
+     .line 1419
+     .end local v4    # "i":I
+-    :cond_a3
++    :cond_2
+     invoke-virtual {v0}, Landroid/os/RemoteCallbackList;->finishBroadcast()V
+ 
+     .line 1420
+     .end local v3    # "callbackSize":I
+-    goto :goto_ac
++    goto :goto_3
+ 
+     .line 1421
+-    :cond_a7
++    :cond_3
+     const-string v3, "notifyCallback: no callback"
+ 
+     invoke-static {v1, v3}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1423
+-    :goto_ac
++    :goto_3
+     return-void
+ .end method
+ 
+ .method private notifyRegistrationListener(Lcom/sec/ims/ImsRegistration;ZLcom/sec/ims/ImsRegistrationError;)V
+-    .registers 12
++    .locals 8
+     .param p1, "reg"    # Lcom/sec/ims/ImsRegistration;
+     .param p2, "registered"    # Z
+     .param p3, "error"    # Lcom/sec/ims/ImsRegistrationError;
+@@ -313,7 +311,6 @@
+ 
+     invoke-virtual {v1, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v3
+@@ -331,7 +328,6 @@
+     invoke-static {v2, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1429
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v1
+@@ -344,12 +340,12 @@
+ 
+     move-result-object v1
+ 
+-    :goto_44
++    :goto_0
+     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v3
+ 
+-    if-eqz v3, :cond_bb
++    if-eqz v3, :cond_3
+ 
+     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -359,7 +355,6 @@
+ 
+     .line 1430
+     .local v3, "key":Ljava/lang/Integer;
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v4
+@@ -385,7 +380,7 @@
+ 
+     move-result v6
+ 
+-    if-eq v0, v6, :cond_7a
++    if-eq v0, v6, :cond_0
+ 
+     .line 1434
+     new-instance v6, Ljava/lang/StringBuilder;
+@@ -405,14 +400,14 @@
+     invoke-static {v2, v6}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1435
+-    goto :goto_44
++    goto :goto_0
+ 
+     .line 1439
+-    :cond_7a
+-    if-eqz p2, :cond_9d
++    :cond_0
++    if-eqz p2, :cond_1
+ 
+     .line 1440
+-    :try_start_7c
++    :try_start_0
+     const/16 v6, 0xe
+ 
+     invoke-interface {v5, v6}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+@@ -420,17 +415,15 @@
+     .line 1442
+     iget-object v6, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # invokes: Lcom/google/ims/GoogleImsService;->isOwnUrisChanged(ILcom/sec/ims/ImsRegistration;)Z
+     invoke-static {v6, v0, p1}, Lcom/google/ims/GoogleImsService;->access$100(Lcom/google/ims/GoogleImsService;ILcom/sec/ims/ImsRegistration;)Z
+ 
+     move-result v6
+ 
+-    if-eqz v6, :cond_af
++    if-eqz v6, :cond_2
+ 
+     .line 1443
+     iget-object v6, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mOwnUris:Ljava/util/Map;
+     invoke-static {v6}, Lcom/google/ims/GoogleImsService;->access$200(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+ 
+     move-result-object v6
+@@ -447,10 +440,10 @@
+ 
+     invoke-interface {v5, v6}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationAssociatedUriChanged([Landroid/net/Uri;)V
+ 
+-    goto :goto_af
++    goto :goto_1
+ 
+     .line 1446
+-    :cond_9d
++    :cond_1
+     nop
+ 
+     .line 1447
+@@ -472,17 +465,17 @@
+     new-array v7, v7, [Landroid/net/Uri;
+ 
+     invoke-interface {v5, v7}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationAssociatedUriChanged([Landroid/net/Uri;)V
+-    :try_end_af
+-    .catch Landroid/os/RemoteException; {:try_start_7c .. :try_end_af} :catch_b0
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1454
+     .end local v6    # "reasonInfo":Landroid/telephony/ims/ImsReasonInfo;
+-    :cond_af
+-    :goto_af
+-    goto :goto_ba
++    :cond_2
++    :goto_1
++    goto :goto_2
+ 
+     .line 1451
+-    :catch_b0
++    :catch_0
+     move-exception v6
+ 
+     .line 1452
+@@ -499,18 +492,18 @@
+     .end local v4    # "service":Lcom/google/ims/internal/ServiceProfile;
+     .end local v5    # "listener":Lcom/android/ims/internal/IImsRegistrationListener;
+     .end local v6    # "e":Landroid/os/RemoteException;
+-    :goto_ba
+-    goto :goto_44
++    :goto_2
++    goto :goto_0
+ 
+     .line 1456
+-    :cond_bb
++    :cond_3
+     return-void
+ .end method
+ 
+ 
+ # virtual methods
+ .method public addCallback(ILandroid/telephony/ims/aidl/IImsRegistrationCallback;)V
+-    .registers 10
++    .locals 7
+     .param p1, "phoneId"    # I
+     .param p2, "callback"    # Landroid/telephony/ims/aidl/IImsRegistrationCallback;
+ 
+@@ -533,15 +526,15 @@
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_66
++    if-nez v1, :cond_2
+ 
+     .line 1343
+     array-length v1, v0
+ 
+     const/4 v2, 0x0
+ 
+-    :goto_14
+-    if-ge v2, v1, :cond_66
++    :goto_0
++    if-ge v2, v1, :cond_2
+ 
+     aget-object v3, v0, v2
+ 
+@@ -551,13 +544,13 @@
+ 
+     move-result v4
+ 
+-    if-ne v4, p1, :cond_63
++    if-ne v4, p1, :cond_1
+ 
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
+ 
+     move-result v4
+ 
+-    if-eqz v4, :cond_63
++    if-eqz v4, :cond_1
+ 
+     .line 1345
+     new-instance v4, Ljava/lang/StringBuilder;
+@@ -579,7 +572,7 @@
+     invoke-static {v5, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1347
+-    :try_start_3a
++    :try_start_0
+     const/4 v4, 0x0
+ 
+     invoke-interface {p2, v4}, Landroid/telephony/ims/aidl/IImsRegistrationCallback;->onRegistered(I)V
+@@ -587,17 +580,15 @@
+     .line 1349
+     iget-object v4, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # invokes: Lcom/google/ims/GoogleImsService;->isOwnUrisChanged(ILcom/sec/ims/ImsRegistration;)Z
+     invoke-static {v4, p1, v3}, Lcom/google/ims/GoogleImsService;->access$100(Lcom/google/ims/GoogleImsService;ILcom/sec/ims/ImsRegistration;)Z
+ 
+     move-result v4
+ 
+-    if-eqz v4, :cond_59
++    if-eqz v4, :cond_0
+ 
+     .line 1350
+     iget-object v4, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mOwnUris:Ljava/util/Map;
+     invoke-static {v4}, Lcom/google/ims/GoogleImsService;->access$200(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+ 
+     move-result-object v4
+@@ -613,15 +604,15 @@
+     check-cast v4, [Landroid/net/Uri;
+ 
+     invoke-interface {p2, v4}, Landroid/telephony/ims/aidl/IImsRegistrationCallback;->onSubscriberAssociatedUriChanged([Landroid/net/Uri;)V
+-    :try_end_59
+-    .catch Landroid/os/RemoteException; {:try_start_3a .. :try_end_59} :catch_5a
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1355
+-    :cond_59
+-    goto :goto_63
++    :cond_0
++    goto :goto_1
+ 
+     .line 1352
+-    :catch_5a
++    :catch_0
+     move-exception v4
+ 
+     .line 1353
+@@ -636,14 +627,14 @@
+     .line 1343
+     .end local v3    # "reg":Lcom/sec/ims/ImsRegistration;
+     .end local v4    # "e":Landroid/os/RemoteException;
+-    :cond_63
+-    :goto_63
++    :cond_1
++    :goto_1
+     add-int/lit8 v2, v2, 0x1
+ 
+-    goto :goto_14
++    goto :goto_0
+ 
+     .line 1360
+-    :cond_66
++    :cond_2
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->mRegistrationCallbacks:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -654,7 +645,7 @@
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_80
++    if-nez v1, :cond_3
+ 
+     .line 1361
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->mRegistrationCallbacks:Ljava/util/Map;
+@@ -670,7 +661,7 @@
+     invoke-interface {v1, v2, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 1364
+-    :cond_80
++    :cond_3
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->mRegistrationCallbacks:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -690,11 +681,10 @@
+ .end method
+ 
+ .method public notifyFeatureCapableChanged(I)V
+-    .registers 10
++    .locals 8
+     .param p1, "phoneId"    # I
+ 
+     .line 1552
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v0
+@@ -707,12 +697,12 @@
+ 
+     move-result-object v0
+ 
+-    :goto_c
++    :goto_0
+     invoke-interface {v0}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v1
+ 
+-    if-eqz v1, :cond_68
++    if-eqz v1, :cond_2
+ 
+     invoke-interface {v0}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -722,7 +712,6 @@
+ 
+     .line 1553
+     .local v1, "key":Ljava/lang/Integer;
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v2
+@@ -737,25 +726,25 @@
+     .local v2, "service":Lcom/google/ims/internal/ServiceProfile;
+     const-string v3, "GoogleImsService"
+ 
+-    if-eqz v2, :cond_53
++    if-eqz v2, :cond_1
+ 
+     invoke-virtual {v2}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+ 
+     move-result v4
+ 
+-    if-eq p1, v4, :cond_2d
++    if-eq p1, v4, :cond_0
+ 
+-    goto :goto_53
++    goto :goto_2
+ 
+     .line 1559
+-    :cond_2d
++    :cond_0
+     invoke-virtual {v2}, Lcom/google/ims/internal/ServiceProfile;->getRegistrationListener()Lcom/android/ims/internal/IImsRegistrationListener;
+ 
+     move-result-object v4
+ 
+     .line 1561
+     .local v4, "listener":Lcom/android/ims/internal/IImsRegistrationListener;
+-    :try_start_31
++    :try_start_0
+     invoke-virtual {v2}, Lcom/google/ims/internal/ServiceProfile;->getServiceClass()I
+ 
+     move-result v5
+@@ -764,14 +753,12 @@
+ 
+     iget-object v7, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mCapabilities:[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+     invoke-static {v7}, Lcom/google/ims/GoogleImsService;->access$800(Lcom/google/ims/GoogleImsService;)[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+ 
+     move-result-object v7
+ 
+     aget-object v7, v7, p1
+ 
+-    # invokes: Lcom/google/ims/GoogleImsService;->convertCapaToFeature(Landroid/telephony/ims/feature/ImsFeature$Capabilities;)[I
+     invoke-static {v6, v7}, Lcom/google/ims/GoogleImsService;->access$900(Lcom/google/ims/GoogleImsService;Landroid/telephony/ims/feature/ImsFeature$Capabilities;)[I
+ 
+     move-result-object v6
+@@ -779,14 +766,14 @@
+     const/4 v7, 0x0
+ 
+     invoke-interface {v4, v5, v6, v7}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationFeatureCapabilityChanged(I[I[I)V
+-    :try_end_47
+-    .catch Landroid/os/RemoteException; {:try_start_31 .. :try_end_47} :catch_48
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1565
+-    goto :goto_52
++    goto :goto_1
+ 
+     .line 1562
+-    :catch_48
++    :catch_0
+     move-exception v5
+ 
+     .line 1563
+@@ -803,14 +790,14 @@
+     .end local v2    # "service":Lcom/google/ims/internal/ServiceProfile;
+     .end local v4    # "listener":Lcom/android/ims/internal/IImsRegistrationListener;
+     .end local v5    # "e":Landroid/os/RemoteException;
+-    :goto_52
+-    goto :goto_c
++    :goto_1
++    goto :goto_0
+ 
+     .line 1555
+     .restart local v1    # "key":Ljava/lang/Integer;
+     .restart local v2    # "service":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_53
+-    :goto_53
++    :cond_1
++    :goto_2
+     new-instance v4, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+@@ -828,17 +815,17 @@
+     invoke-static {v3, v4}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1556
+-    goto :goto_c
++    goto :goto_0
+ 
+     .line 1567
+     .end local v1    # "key":Ljava/lang/Integer;
+     .end local v2    # "service":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_68
++    :cond_2
+     return-void
+ .end method
+ 
+ .method public notifyImsRegistration(Lcom/sec/ims/ImsRegistration;ZLcom/sec/ims/ImsRegistrationError;)V
+-    .registers 6
++    .locals 2
+     .param p1, "reg"    # Lcom/sec/ims/ImsRegistration;
+     .param p2, "registered"    # Z
+     .param p3, "error"    # Lcom/sec/ims/ImsRegistrationError;
+@@ -848,7 +835,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_17
++    if-eqz v0, :cond_0
+ 
+     invoke-virtual {p1}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+@@ -858,7 +845,7 @@
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_17
++    if-nez v0, :cond_0
+ 
+     .line 1382
+     invoke-direct {p0, p1, p2, p3}, Lcom/google/ims/GoogleImsService$ImsNotifier;->notifyRegistrationCallback(Lcom/sec/ims/ImsRegistration;ZLcom/sec/ims/ImsRegistrationError;)V
+@@ -866,10 +853,10 @@
+     .line 1383
+     invoke-direct {p0, p1, p2, p3}, Lcom/google/ims/GoogleImsService$ImsNotifier;->notifyRegistrationListener(Lcom/sec/ims/ImsRegistration;ZLcom/sec/ims/ImsRegistrationError;)V
+ 
+-    goto :goto_1e
++    goto :goto_0
+ 
+     .line 1385
+-    :cond_17
++    :cond_0
+     const-string v0, "GoogleImsService"
+ 
+     const-string v1, "do not notify in case of Emergency or RCS only registration"
+@@ -877,12 +864,12 @@
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1387
+-    :goto_1e
++    :goto_0
+     return-void
+ .end method
+ 
+ .method public onCdpnInfo(ILjava/lang/String;I)V
+-    .registers 8
++    .locals 4
+     .param p1, "phoneId"    # I
+     .param p2, "calledPartyNumber"    # Ljava/lang/String;
+     .param p3, "timeout"    # I
+@@ -968,47 +955,16 @@
+     invoke-static {v1, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1526
+-    :try_start_51
+-    iget-object v1, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
++    const-string/jumbo v2, "onCdpnInfo: skip ISecImsMmTelEventListener on AOSP"
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mSecMmtelListener:Ljava/util/Map;
+-    invoke-static {v1}, Lcom/google/ims/GoogleImsService;->access$500(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+-
+-    move-result-object v1
+-
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v2
+-
+-    invoke-interface {v1, v2}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Lcom/android/ims/internal/ISecImsMmTelEventListener;
+-
+-    invoke-interface {v1, p2, p3}, Lcom/android/ims/internal/ISecImsMmTelEventListener;->onCdpnInfo(Ljava/lang/String;I)V
+-    :try_end_64
+-    .catch Landroid/os/RemoteException; {:try_start_51 .. :try_end_64} :catch_65
+-
+-    .line 1529
+-    goto :goto_69
+-
+-    .line 1527
+-    :catch_65
+-    move-exception v1
+-
+-    .line 1528
+-    .local v1, "e":Landroid/os/RemoteException;
+-    invoke-virtual {v1}, Landroid/os/RemoteException;->printStackTrace()V
++    invoke-static {v1, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1530
+-    .end local v1    # "e":Landroid/os/RemoteException;
+-    :goto_69
+     return-void
+ .end method
+ 
+ .method public onDialogEvent(Lcom/sec/ims/DialogEvent;)V
+-    .registers 7
++    .locals 5
+     .param p1, "de"    # Lcom/sec/ims/DialogEvent;
+ 
+     .line 1533
+@@ -1035,7 +991,6 @@
+     invoke-static {v1, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1535
+-    # getter for: Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$600()Ljava/util/Map;
+ 
+     move-result-object v0
+@@ -1052,7 +1007,7 @@
+ 
+     move-result-object v0
+ 
+-    if-eqz v0, :cond_9c
++    if-eqz v0, :cond_0
+ 
+     .line 1536
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+@@ -1061,7 +1016,6 @@
+ 
+     move-result v2
+ 
+-    # invokes: Lcom/google/ims/GoogleImsService;->getMdecTypeFromRegHandle(I)I
+     invoke-static {v0, v2}, Lcom/google/ims/GoogleImsService;->access$700(Lcom/google/ims/GoogleImsService;I)I
+ 
+     move-result v0
+@@ -1085,7 +1039,6 @@
+     invoke-static {v1, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1538
+-    # getter for: Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$600()Ljava/util/Map;
+ 
+     move-result-object v2
+@@ -1107,8 +1060,7 @@
+     invoke-virtual {v2, p1, v0}, Lcom/google/ims/ImsMultiEndPointImpl;->setDialogInfo(Lcom/sec/ims/DialogEvent;I)V
+ 
+     .line 1541
+-    :try_start_61
+-    # getter for: Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
++    :try_start_0
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$600()Ljava/util/Map;
+ 
+     move-result-object v2
+@@ -1136,7 +1088,6 @@
+     nop
+ 
+     .line 1543
+-    # getter for: Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$600()Ljava/util/Map;
+ 
+     move-result-object v3
+@@ -1161,15 +1112,15 @@
+ 
+     .line 1542
+     invoke-interface {v2, v3}, Lcom/android/ims/internal/IImsExternalCallStateListener;->onImsExternalCallStateUpdate(Ljava/util/List;)V
+-    :try_end_91
+-    .catch Landroid/os/RemoteException; {:try_start_61 .. :try_end_91} :catch_92
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1547
+     .end local v2    # "listener":Lcom/android/ims/internal/IImsExternalCallStateListener;
+-    goto :goto_9c
++    goto :goto_0
+ 
+     .line 1544
+-    :catch_92
++    :catch_0
+     move-exception v2
+ 
+     .line 1545
+@@ -1184,13 +1135,13 @@
+     .line 1549
+     .end local v0    # "deMdecType":I
+     .end local v2    # "e":Landroid/os/RemoteException;
+-    :cond_9c
+-    :goto_9c
++    :cond_0
++    :goto_0
+     return-void
+ .end method
+ 
+ .method public onIncomingCall(II)V
+-    .registers 16
++    .locals 13
+     .param p1, "phoneId"    # I
+     .param p2, "callId"    # I
+ 
+@@ -1222,7 +1173,7 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_27
++    if-eqz v2, :cond_0
+ 
+     .line 1461
+     const-string/jumbo v0, "onIncomingCall, thirdparty mode enabled, ignore event"
+@@ -1233,8 +1184,7 @@
+     return-void
+ 
+     .line 1465
+-    :cond_27
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
++    :cond_0
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v2
+@@ -1247,12 +1197,12 @@
+ 
+     move-result-object v2
+ 
+-    :goto_33
++    :goto_0
+     invoke-interface {v2}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v3
+ 
+-    if-eqz v3, :cond_15b
++    if-eqz v3, :cond_7
+ 
+     invoke-interface {v2}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -1262,7 +1212,6 @@
+ 
+     .line 1466
+     .local v3, "key":Ljava/lang/Integer;
+-    # getter for: Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+     invoke-static {}, Lcom/google/ims/GoogleImsService;->access$300()Ljava/util/Map;
+ 
+     move-result-object v4
+@@ -1275,13 +1224,13 @@
+ 
+     .line 1467
+     .local v4, "service":Lcom/google/ims/internal/ServiceProfile;
+-    if-eqz v4, :cond_159
++    if-eqz v4, :cond_6
+ 
+     invoke-virtual {v4}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+ 
+     move-result v5
+ 
+-    if-ne v5, p1, :cond_159
++    if-ne v5, p1, :cond_6
+ 
+     .line 1468
+     new-instance v5, Landroid/content/Intent;
+@@ -1303,11 +1252,14 @@
+ 
+     invoke-virtual {v5, v6, v3}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/io/Serializable;)Landroid/content/Intent;
+ 
++    const-string v6, "android:phone_id"
++
++    invoke-virtual {v5, v6, p1}, Landroid/content/Intent;->putExtra(Ljava/lang/String;I)Landroid/content/Intent;
++
+     .line 1473
+-    :try_start_64
++    :try_start_0
+     iget-object v6, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+     invoke-static {v6}, Lcom/google/ims/GoogleImsService;->access$400(Lcom/google/ims/GoogleImsService;)Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     move-result-object v6
+@@ -1318,7 +1270,7 @@
+ 
+     .line 1474
+     .local v6, "secCallSession":Lcom/sec/ims/volte2/IImsCallSession;
+-    if-eqz v6, :cond_135
++    if-eqz v6, :cond_5
+ 
+     .line 1475
+     invoke-interface {v6}, Lcom/sec/ims/volte2/IImsCallSession;->getCallProfile()Lcom/sec/ims/volte2/data/CallProfile;
+@@ -1331,7 +1283,7 @@
+ 
+     move-result-object v8
+ 
+-    if-eqz v8, :cond_83
++    if-eqz v8, :cond_1
+ 
+     .line 1477
+     const-string v8, "com.samsung.telephony.extra.SEM_EXTRA_FORWARDED_CALL"
+@@ -1343,10 +1295,9 @@
+     invoke-virtual {v5, v8, v9}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+ 
+     .line 1480
+-    :cond_83
++    :cond_1
+     iget-object v8, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+     invoke-static {v8}, Lcom/google/ims/GoogleImsService;->access$400(Lcom/google/ims/GoogleImsService;)Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     move-result-object v8
+@@ -1355,7 +1306,7 @@
+ 
+     move-result v8
+ 
+-    if-eqz v8, :cond_135
++    if-eqz v8, :cond_5
+ 
+     .line 1481
+     invoke-interface {v6}, Lcom/sec/ims/volte2/IImsCallSession;->getMdecType()I
+@@ -1405,7 +1356,7 @@
+     .line 1487
+     const/4 v10, 0x1
+ 
+-    if-ne v8, v10, :cond_135
++    if-ne v8, v10, :cond_5
+ 
+     .line 1488
+     const-string v10, "com.samsung.telephony.extra.CMC_DIAL_TO"
+@@ -1425,7 +1376,7 @@
+ 
+     move-result v10
+ 
+-    if-nez v10, :cond_dd
++    if-nez v10, :cond_2
+ 
+     .line 1490
+     const-string v10, "com.samsung.telephony.extra.CMC_REPLACE_CALL_ID"
+@@ -1437,7 +1388,7 @@
+     invoke-virtual {v5, v10, v11}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+ 
+     .line 1492
+-    :cond_dd
++    :cond_2
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getCmcDeviceId()Ljava/lang/String;
+ 
+     move-result-object v10
+@@ -1446,7 +1397,7 @@
+ 
+     move-result v10
+ 
+-    if-nez v10, :cond_108
++    if-nez v10, :cond_3
+ 
+     .line 1493
+     const-string v10, "com.samsung.telephony.extra.CMC_DEVICE_ID"
+@@ -1479,7 +1430,7 @@
+     invoke-static {v1, v10}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1497
+-    :cond_108
++    :cond_3
+     invoke-static {}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getInstance()Lcom/sec/internal/ims/imsservice/ImsServiceStub;
+ 
+     move-result-object v10
+@@ -1496,16 +1447,16 @@
+     .local v10, "mdecLineSlotIndex":I
+     const/4 v11, -0x1
+ 
+-    if-ne v10, v11, :cond_119
++    if-ne v10, v11, :cond_4
+ 
+     move v11, v0
+ 
+-    goto :goto_11a
++    goto :goto_1
+ 
+-    :cond_119
++    :cond_4
+     move v11, v10
+ 
+-    :goto_11a
++    :goto_1
+     move v10, v11
+ 
+     .line 1499
+@@ -1529,8 +1480,8 @@
+     const-string v11, "com.samsung.telephony.extra.CMC_PHONE_ID"
+ 
+     invoke-virtual {v5, v11, v10}, Landroid/content/Intent;->putExtra(Ljava/lang/String;I)Landroid/content/Intent;
+-    :try_end_135
+-    .catch Landroid/os/RemoteException; {:try_start_64 .. :try_end_135} :catch_136
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1506
+     .end local v6    # "secCallSession":Lcom/sec/ims/volte2/IImsCallSession;
+@@ -1538,11 +1489,11 @@
+     .end local v8    # "mdecType":I
+     .end local v9    # "sessionId":I
+     .end local v10    # "mdecLineSlotIndex":I
+-    :cond_135
+-    goto :goto_13a
++    :cond_5
++    goto :goto_2
+ 
+     .line 1504
+-    :catch_136
++    :catch_0
+     move-exception v6
+ 
+     .line 1505
+@@ -1551,63 +1502,55 @@
+ 
+     .line 1509
+     .end local v6    # "e":Landroid/os/RemoteException;
+-    :goto_13a
+-    :try_start_13a
+-    iget-object v6, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+-
+-    # getter for: Lcom/google/ims/GoogleImsService;->mSecMmtelListener:Ljava/util/Map;
+-    invoke-static {v6}, Lcom/google/ims/GoogleImsService;->access$500(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
++    :goto_2
++    :try_start_1
++    invoke-virtual {v4}, Lcom/google/ims/internal/ServiceProfile;->getIncomingCallIntent()Landroid/app/PendingIntent;
+ 
+     move-result-object v6
+ 
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v7
++    if-eqz v6, :cond_6
+ 
+-    invoke-interface {v6, v7}, Ljava/util/Map;->get(Ljava/lang/Object;)Ljava/lang/Object;
++    const-wide/16 v7, 0x1f4
+ 
+-    move-result-object v6
++    invoke-static {v7, v8}, Landroid/os/SystemClock;->sleep(J)V
+ 
+-    check-cast v6, Lcom/android/ims/internal/ISecImsMmTelEventListener;
++    iget-object v7, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    invoke-virtual {v5}, Landroid/content/Intent;->getExtras()Landroid/os/Bundle;
++    invoke-virtual {v7}, Lcom/google/ims/GoogleImsService;->getContext()Landroid/content/Context;
+ 
+     move-result-object v7
+ 
+-    invoke-interface {v6, p2, v7}, Lcom/android/ims/internal/ISecImsMmTelEventListener;->onIncomingCall(ILandroid/os/Bundle;)V
+-    :try_end_151
+-    .catch Landroid/os/RemoteException; {:try_start_13a .. :try_end_151} :catch_152
++    invoke-virtual {v6, v7, v0, v5}, Landroid/app/PendingIntent;->send(Landroid/content/Context;ILandroid/content/Intent;)V
++    :try_end_1
++    .catch Landroid/app/PendingIntent$CanceledException; {:try_start_1 .. :try_end_1} :catch_1
+ 
+     .line 1513
+-    goto :goto_159
++    goto :goto_3
+ 
+     .line 1510
+-    :catch_152
++    :catch_1
+     move-exception v6
+ 
+     .line 1511
+     .restart local v6    # "e":Landroid/os/RemoteException;
+-    invoke-virtual {v6}, Landroid/os/RemoteException;->printStackTrace()V
+-
+-    .line 1512
+-    invoke-static {v0}, Ljava/lang/System;->exit(I)V
++    invoke-virtual {v6}, Landroid/app/PendingIntent$CanceledException;->printStackTrace()V
+ 
+     .line 1515
+     .end local v3    # "key":Ljava/lang/Integer;
+     .end local v4    # "service":Lcom/google/ims/internal/ServiceProfile;
+     .end local v5    # "fillIn":Landroid/content/Intent;
+     .end local v6    # "e":Landroid/os/RemoteException;
+-    :cond_159
+-    :goto_159
+-    goto/16 :goto_33
++    :cond_6
++    goto/16 :goto_0
+ 
+     .line 1516
+-    :cond_15b
++    :cond_7
++    :goto_3
+     return-void
+ .end method
+ 
+ .method public removeCallback(ILandroid/telephony/ims/aidl/IImsRegistrationCallback;)V
+-    .registers 5
++    .locals 2
+     .param p1, "phoneId"    # I
+     .param p2, "callback"    # Landroid/telephony/ims/aidl/IImsRegistrationCallback;
+ 
+@@ -1622,7 +1565,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_1b
++    if-eqz v0, :cond_0
+ 
+     .line 1370
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService$ImsNotifier;->mRegistrationCallbacks:Ljava/util/Map;
+@@ -1640,6 +1583,6 @@
+     invoke-virtual {v0, p2}, Landroid/os/RemoteCallbackList;->unregister(Landroid/os/IInterface;)Z
+ 
+     .line 1372
+-    :cond_1b
++    :cond_0
+     return-void
+ .end method
+diff -urN old/smali/com/google/ims/GoogleImsService$ImsRegistrationImpl.smali new/smali/com/google/ims/GoogleImsService$ImsRegistrationImpl.smali
+--- a/smali/com/google/ims/GoogleImsService$ImsRegistrationImpl.smali	2026-03-23 21:27:58.085112586 +0530
++++ b/smali/com/google/ims/GoogleImsService$ImsRegistrationImpl.smali	2026-03-23 21:27:58.085840400 +0530
+@@ -22,7 +22,7 @@
+ 
+ # direct methods
+ .method public constructor <init>(Lcom/google/ims/GoogleImsService;I)V
+-    .registers 3
++    .locals 0
+     .param p2, "phoneId"    # I
+ 
+     .line 1277
+@@ -45,7 +45,7 @@
+ 
+ # virtual methods
+ .method public addRegistrationCallback(Landroid/telephony/ims/aidl/IImsRegistrationCallback;)V
+-    .registers 4
++    .locals 2
+     .param p1, "callback"    # Landroid/telephony/ims/aidl/IImsRegistrationCallback;
+ 
+     .line 1310
+@@ -57,14 +57,14 @@
+ 
+     const/4 v0, 0x0
+ 
+-    :try_start_8
++    :try_start_0
+     invoke-interface {p1, v0}, Landroid/telephony/ims/aidl/IImsRegistrationCallback;->onRegistered(I)V
+-    :try_end_b
+-    .catch Landroid/os/RemoteException; {:try_start_8 .. :try_end_b} :catch_c
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+-    goto :goto_14
++    goto :goto_0
+ 
+-    :catch_c
++    :catch_0
+     move-exception v0
+ 
+     const-string v1, "GoogleImsService"
+@@ -74,10 +74,9 @@
+     invoke-static {v1, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 1312
+-    :goto_14
++    :goto_0
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService$ImsRegistrationImpl;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mImsNotifier:Lcom/google/ims/GoogleImsService$ImsNotifier;
+     invoke-static {v0}, Lcom/google/ims/GoogleImsService;->access$000(Lcom/google/ims/GoogleImsService;)Lcom/google/ims/GoogleImsService$ImsNotifier;
+ 
+     move-result-object v0
+@@ -91,7 +90,7 @@
+ .end method
+ 
+ .method public getRegistrationTechnology()I
+-    .registers 2
++    .locals 1
+ 
+     const/4 v0, 0x0
+ 
+@@ -99,7 +98,7 @@
+ .end method
+ 
+ .method public removeRegistrationCallback(Landroid/telephony/ims/aidl/IImsRegistrationCallback;)V
+-    .registers 4
++    .locals 2
+     .param p1, "callback"    # Landroid/telephony/ims/aidl/IImsRegistrationCallback;
+ 
+     .line 1317
+@@ -112,7 +111,6 @@
+     .line 1319
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService$ImsRegistrationImpl;->this$0:Lcom/google/ims/GoogleImsService;
+ 
+-    # getter for: Lcom/google/ims/GoogleImsService;->mImsNotifier:Lcom/google/ims/GoogleImsService$ImsNotifier;
+     invoke-static {v0}, Lcom/google/ims/GoogleImsService;->access$000(Lcom/google/ims/GoogleImsService;)Lcom/google/ims/GoogleImsService$ImsNotifier;
+ 
+     move-result-object v0
+diff -urN old/smali/com/google/ims/GoogleImsService.smali new/smali/com/google/ims/GoogleImsService.smali
+--- a/smali/com/google/ims/GoogleImsService.smali	2026-03-23 21:27:58.088589425 +0530
++++ b/smali/com/google/ims/GoogleImsService.smali	2026-03-23 21:27:58.089413054 +0530
+@@ -174,7 +174,7 @@
+ 
+ # direct methods
+ .method static constructor <clinit>()V
+-    .registers 3
++    .locals 3
+ 
+     .line 96
+     const/4 v0, 0x0
+@@ -224,7 +224,7 @@
+ .end method
+ 
+ .method private constructor <init>(Landroid/content/Context;)V
+-    .registers 7
++    .locals 5
+     .param p1, "context"    # Landroid/content/Context;
+ 
+     .line 118
+@@ -401,7 +401,7 @@
+ 
+     const-string v3, "GoogleImsService"
+ 
+-    if-nez v2, :cond_a5
++    if-nez v2, :cond_0
+ 
+     .line 127
+     const-string v2, "Add GoogleImsService"
+@@ -411,16 +411,16 @@
+     .line 128
+     invoke-static {v0, p0}, Landroid/os/ServiceManager;->addService(Ljava/lang/String;Landroid/os/IBinder;)V
+ 
+-    goto :goto_aa
++    goto :goto_0
+ 
+     .line 130
+-    :cond_a5
++    :cond_0
+     const-string v0, "GoogleImsService Already Registered."
+ 
+     invoke-static {v3, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 133
+-    :goto_aa
++    :goto_0
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mContext:Landroid/content/Context;
+ 
+     invoke-static {v0}, Lcom/sec/internal/ims/util/os/TelephonyManagerWrapper;->getInstance(Landroid/content/Context;)Lcom/sec/internal/ims/util/os/ITelephonyManager;
+@@ -444,10 +444,10 @@
+     const/4 v0, 0x0
+ 
+     .local v0, "i":I
+-    :goto_bd
++    :goto_1
+     iget v2, p0, Lcom/google/ims/GoogleImsService;->mPhoneCount:I
+ 
+-    if-ge v0, v2, :cond_e5
++    if-ge v0, v2, :cond_1
+ 
+     .line 136
+     iget-object v2, p0, Lcom/google/ims/GoogleImsService;->mCapabilities:[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+@@ -484,16 +484,16 @@
+     .line 135
+     add-int/lit8 v0, v0, 0x1
+ 
+-    goto :goto_bd
++    goto :goto_1
+ 
+     .line 139
+     .end local v0    # "i":I
+-    :cond_e5
++    :cond_1
+     return-void
+ .end method
+ 
+ .method static synthetic access$000(Lcom/google/ims/GoogleImsService;)Lcom/google/ims/GoogleImsService$ImsNotifier;
+-    .registers 2
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 90
+@@ -503,7 +503,7 @@
+ .end method
+ 
+ .method static synthetic access$100(Lcom/google/ims/GoogleImsService;ILcom/sec/ims/ImsRegistration;)Z
+-    .registers 4
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+     .param p1, "x1"    # I
+     .param p2, "x2"    # Lcom/sec/ims/ImsRegistration;
+@@ -517,7 +517,7 @@
+ .end method
+ 
+ .method static synthetic access$200(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+-    .registers 2
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 90
+@@ -527,7 +527,7 @@
+ .end method
+ 
+ .method static synthetic access$300()Ljava/util/Map;
+-    .registers 1
++    .locals 1
+ 
+     .line 90
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -536,7 +536,7 @@
+ .end method
+ 
+ .method static synthetic access$400(Lcom/google/ims/GoogleImsService;)Lcom/sec/internal/ims/volte2/VolteServiceModule;
+-    .registers 2
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 90
+@@ -546,7 +546,7 @@
+ .end method
+ 
+ .method static synthetic access$500(Lcom/google/ims/GoogleImsService;)Ljava/util/Map;
+-    .registers 2
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 90
+@@ -556,7 +556,7 @@
+ .end method
+ 
+ .method static synthetic access$600()Ljava/util/Map;
+-    .registers 1
++    .locals 1
+ 
+     .line 90
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
+@@ -565,7 +565,7 @@
+ .end method
+ 
+ .method static synthetic access$700(Lcom/google/ims/GoogleImsService;I)I
+-    .registers 3
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+     .param p1, "x1"    # I
+ 
+@@ -578,7 +578,7 @@
+ .end method
+ 
+ .method static synthetic access$800(Lcom/google/ims/GoogleImsService;)[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+-    .registers 2
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+ 
+     .line 90
+@@ -588,7 +588,7 @@
+ .end method
+ 
+ .method static synthetic access$900(Lcom/google/ims/GoogleImsService;Landroid/telephony/ims/feature/ImsFeature$Capabilities;)[I
+-    .registers 3
++    .locals 1
+     .param p0, "x0"    # Lcom/google/ims/GoogleImsService;
+     .param p1, "x1"    # Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+ 
+@@ -601,7 +601,7 @@
+ .end method
+ 
+ .method private convertCapaToFeature(Landroid/telephony/ims/feature/ImsFeature$Capabilities;)[I
+-    .registers 6
++    .locals 4
+     .param p1, "capabilities"    # Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+ 
+     .line 1195
+@@ -609,7 +609,7 @@
+ 
+     new-array v0, v0, [I
+ 
+-    fill-array-data v0, :array_42
++    fill-array-data v0, :array_0
+ 
+     .line 1205
+     .local v0, "features":[I
+@@ -621,7 +621,7 @@
+ 
+     const/4 v3, 0x2
+ 
+-    if-eqz v2, :cond_14
++    if-eqz v2, :cond_0
+ 
+     .line 1206
+     const/4 v2, 0x0
+@@ -632,12 +632,12 @@
+     aput v3, v0, v3
+ 
+     .line 1210
+-    :cond_14
++    :cond_0
+     invoke-virtual {p1, v3}, Landroid/telephony/ims/feature/ImsFeature$Capabilities;->isCapable(I)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_1f
++    if-eqz v2, :cond_1
+ 
+     .line 1211
+     aput v1, v0, v1
+@@ -648,14 +648,14 @@
+     aput v1, v0, v1
+ 
+     .line 1215
+-    :cond_1f
++    :cond_1
+     const/4 v1, 0x4
+ 
+     invoke-virtual {p1, v1}, Landroid/telephony/ims/feature/ImsFeature$Capabilities;->isCapable(I)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_2b
++    if-eqz v2, :cond_2
+ 
+     .line 1216
+     aput v1, v0, v1
+@@ -666,14 +666,14 @@
+     aput v1, v0, v1
+ 
+     .line 1219
+-    :cond_2b
++    :cond_2
+     const/16 v1, 0x8
+ 
+     invoke-virtual {p1, v1}, Landroid/telephony/ims/feature/ImsFeature$Capabilities;->isCapable(I)Z
+ 
+     move-result v1
+ 
+-    if-eqz v1, :cond_40
++    if-eqz v1, :cond_3
+ 
+     .line 1220
+     const-string v1, "GoogleImsService"
+@@ -693,12 +693,12 @@
+     aput v1, v0, v1
+ 
+     .line 1224
+-    :cond_40
++    :cond_3
+     return-object v0
+ 
+     nop
+ 
+-    :array_42
++    :array_0
+     .array-data 4
+         -0x1
+         -0x1
+@@ -713,11 +713,11 @@
+ .end method
+ 
+ .method private extractOwnUrisFromReg(Lcom/sec/ims/ImsRegistration;)[Landroid/net/Uri;
+-    .registers 4
++    .locals 2
+     .param p1, "reg"    # Lcom/sec/ims/ImsRegistration;
+ 
+     .line 1255
+-    if-eqz p1, :cond_2a
++    if-eqz p1, :cond_1
+ 
+     invoke-virtual {p1}, Lcom/sec/ims/ImsRegistration;->getImpuList()Ljava/util/List;
+ 
+@@ -727,12 +727,12 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_d
++    if-eqz v0, :cond_0
+ 
+-    goto :goto_2a
++    goto :goto_0
+ 
+     .line 1259
+-    :cond_d
++    :cond_0
+     invoke-virtual {p1}, Lcom/sec/ims/ImsRegistration;->getImpuList()Ljava/util/List;
+ 
+     move-result-object v0
+@@ -766,8 +766,8 @@
+     return-object v0
+ 
+     .line 1256
+-    :cond_2a
+-    :goto_2a
++    :cond_1
++    :goto_0
+     const/4 v0, 0x0
+ 
+     new-array v0, v0, [Landroid/net/Uri;
+@@ -776,7 +776,7 @@
+ .end method
+ 
+ .method private getCmcRegHandle(Lcom/google/ims/internal/ServiceProfile;I)I
+-    .registers 9
++    .locals 6
+     .param p1, "service"    # Lcom/google/ims/internal/ServiceProfile;
+     .param p2, "mdecType"    # I
+ 
+@@ -787,7 +787,7 @@
+ 
+     const/4 v1, 0x1
+ 
+-    if-ne v0, v1, :cond_43
++    if-ne v0, v1, :cond_1
+ 
+     .line 1230
+     invoke-static {}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getInstance()Lcom/sec/internal/ims/imsservice/ImsServiceStub;
+@@ -808,14 +808,14 @@
+ 
+     const/4 v2, 0x0
+ 
+-    :goto_15
+-    if-ge v2, v1, :cond_43
++    :goto_0
++    if-ge v2, v1, :cond_1
+ 
+     aget-object v3, v0, v2
+ 
+     .line 1232
+     .local v3, "reg":Lcom/sec/ims/ImsRegistration;
+-    if-eqz v3, :cond_40
++    if-eqz v3, :cond_0
+ 
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getPhoneId()I
+ 
+@@ -825,20 +825,20 @@
+ 
+     move-result v5
+ 
+-    if-ne v4, v5, :cond_40
++    if-ne v4, v5, :cond_0
+ 
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
+ 
+     move-result v4
+ 
+-    if-eqz v4, :cond_40
++    if-eqz v4, :cond_0
+ 
+     .line 1233
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v4
+ 
+-    if-eqz v4, :cond_40
++    if-eqz v4, :cond_0
+ 
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+@@ -848,7 +848,7 @@
+ 
+     move-result v4
+ 
+-    if-ne v4, p2, :cond_40
++    if-ne v4, p2, :cond_0
+ 
+     .line 1234
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getHandle()I
+@@ -859,21 +859,21 @@
+ 
+     .line 1231
+     .end local v3    # "reg":Lcom/sec/ims/ImsRegistration;
+-    :cond_40
++    :cond_0
+     add-int/lit8 v2, v2, 0x1
+ 
+-    goto :goto_15
++    goto :goto_0
+ 
+     .line 1238
+     .end local v0    # "registrationList":[Lcom/sec/ims/ImsRegistration;
+-    :cond_43
++    :cond_1
+     const/4 v0, -0x1
+ 
+     return v0
+ .end method
+ 
+ .method private getEcbmInterfaceForPhoneId(I)Lcom/google/ims/ImsEcbmImpl;
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 696
+@@ -896,7 +896,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_22
++    if-eqz v0, :cond_0
+ 
+     .line 698
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mImsEcbmList:Ljava/util/Map;
+@@ -914,7 +914,7 @@
+     return-object v0
+ 
+     .line 700
+-    :cond_22
++    :cond_0
+     new-instance v0, Lcom/google/ims/ImsEcbmImpl;
+ 
+     invoke-direct {v0}, Lcom/google/ims/ImsEcbmImpl;-><init>()V
+@@ -934,7 +934,7 @@
+ .end method
+ 
+ .method private getIncreasedServiceId()I
+-    .registers 3
++    .locals 2
+ 
+     .line 149
+     sget v0, Lcom/google/ims/GoogleImsService;->mServiceIdRef:I
+@@ -948,7 +948,7 @@
+ 
+     const/16 v1, 0xfe
+ 
+-    if-lt v0, v1, :cond_f
++    if-lt v0, v1, :cond_0
+ 
+     .line 151
+     const/4 v0, 0x0
+@@ -956,14 +956,14 @@
+     sput v0, Lcom/google/ims/GoogleImsService;->mServiceIdRef:I
+ 
+     .line 153
+-    :cond_f
++    :cond_0
+     sget v0, Lcom/google/ims/GoogleImsService;->mServiceIdRef:I
+ 
+     return v0
+ .end method
+ 
+ .method public static declared-synchronized getInstance(Landroid/content/Context;)Lcom/google/ims/GoogleImsService;
+-    .registers 3
++    .locals 2
+     .param p0, "context"    # Landroid/content/Context;
+ 
+     const-class v0, Lcom/google/ims/GoogleImsService;
+@@ -971,10 +971,10 @@
+     monitor-enter v0
+ 
+     .line 142
+-    :try_start_3
++    :try_start_0
+     sget-object v1, Lcom/google/ims/GoogleImsService;->mInstance:Lcom/google/ims/GoogleImsService;
+ 
+-    if-nez v1, :cond_e
++    if-nez v1, :cond_0
+ 
+     .line 143
+     new-instance v1, Lcom/google/ims/GoogleImsService;
+@@ -984,10 +984,10 @@
+     sput-object v1, Lcom/google/ims/GoogleImsService;->mInstance:Lcom/google/ims/GoogleImsService;
+ 
+     .line 145
+-    :cond_e
++    :cond_0
+     sget-object v1, Lcom/google/ims/GoogleImsService;->mInstance:Lcom/google/ims/GoogleImsService;
+-    :try_end_10
+-    .catchall {:try_start_3 .. :try_end_10} :catchall_12
++    :try_end_0
++    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+ 
+     monitor-exit v0
+ 
+@@ -995,7 +995,7 @@
+ 
+     .line 141
+     .end local p0    # "context":Landroid/content/Context;
+-    :catchall_12
++    :catchall_0
+     move-exception p0
+ 
+     monitor-exit v0
+@@ -1004,7 +1004,7 @@
+ .end method
+ 
+ .method private getMdecTypeFromRegHandle(I)I
+-    .registers 7
++    .locals 5
+     .param p1, "regHandle"    # I
+ 
+     .line 1243
+@@ -1026,27 +1026,27 @@
+ 
+     const/4 v2, 0x0
+ 
+-    :goto_e
+-    if-ge v2, v1, :cond_2c
++    :goto_0
++    if-ge v2, v1, :cond_1
+ 
+     aget-object v3, v0, v2
+ 
+     .line 1245
+     .local v3, "reg":Lcom/sec/ims/ImsRegistration;
+-    if-eqz v3, :cond_29
++    if-eqz v3, :cond_0
+ 
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getHandle()I
+ 
+     move-result v4
+ 
+-    if-ne p1, v4, :cond_29
++    if-ne p1, v4, :cond_0
+ 
+     .line 1246
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v4
+ 
+-    if-eqz v4, :cond_29
++    if-eqz v4, :cond_0
+ 
+     .line 1247
+     invoke-virtual {v3}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+@@ -1061,26 +1061,26 @@
+ 
+     .line 1244
+     .end local v3    # "reg":Lcom/sec/ims/ImsRegistration;
+-    :cond_29
++    :cond_0
+     add-int/lit8 v2, v2, 0x1
+ 
+-    goto :goto_e
++    goto :goto_0
+ 
+     .line 1251
+-    :cond_2c
++    :cond_1
+     const/4 v1, -0x1
+ 
+     return v1
+ .end method
+ 
+ .method public static getRegistrationTech(I)I
+-    .registers 3
++    .locals 2
+     .param p0, "networkType"    # I
+ 
+     .line 1149
+     const/16 v0, 0xd
+ 
+-    if-ne p0, v0, :cond_6
++    if-ne p0, v0, :cond_0
+ 
+     .line 1150
+     const/4 v0, 0x0
+@@ -1088,23 +1088,23 @@
+     return v0
+ 
+     .line 1151
+-    :cond_6
++    :cond_0
+     invoke-static {p0}, Landroid/telephony/TelephonyManager;->getNetworkClass(I)I
+ 
+     move-result v0
+ 
+     const/4 v1, 0x2
+ 
+-    if-ne v0, v1, :cond_e
++    if-ne v0, v1, :cond_1
+ 
+     .line 1152
+     return v1
+ 
+     .line 1153
+-    :cond_e
++    :cond_1
+     const/16 v0, 0x12
+ 
+-    if-ne p0, v0, :cond_14
++    if-ne p0, v0, :cond_2
+ 
+     .line 1154
+     const/4 v0, 0x1
+@@ -1112,14 +1112,14 @@
+     return v0
+ 
+     .line 1157
+-    :cond_14
++    :cond_2
+     const/4 v0, 0x0
+ 
+     return v0
+ .end method
+ 
+ .method private isOwnUrisChanged(ILcom/sec/ims/ImsRegistration;)Z
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "reg"    # Lcom/sec/ims/ImsRegistration;
+ 
+@@ -1146,7 +1146,7 @@
+ 
+     move-result v1
+ 
+-    if-eqz v1, :cond_18
++    if-eqz v1, :cond_0
+ 
+     .line 1267
+     const/4 v1, 0x0
+@@ -1154,7 +1154,7 @@
+     return v1
+ 
+     .line 1270
+-    :cond_18
++    :cond_0
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService;->mOwnUris:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -1170,7 +1170,7 @@
+ .end method
+ 
+ .method static synthetic lambda$extractOwnUrisFromReg$2(Lcom/sec/ims/util/NameAddr;)Z
+-    .registers 2
++    .locals 1
+     .param p0, "impu"    # Lcom/sec/ims/util/NameAddr;
+ 
+     .line 1259
+@@ -1186,7 +1186,7 @@
+ .end method
+ 
+ .method static synthetic lambda$extractOwnUrisFromReg$3(Lcom/sec/ims/util/NameAddr;)Landroid/net/Uri;
+-    .registers 3
++    .locals 2
+     .param p0, "impu"    # Lcom/sec/ims/util/NameAddr;
+ 
+     .line 1260
+@@ -1220,7 +1220,7 @@
+ .end method
+ 
+ .method static synthetic lambda$extractOwnUrisFromReg$4(I)[Landroid/net/Uri;
+-    .registers 2
++    .locals 1
+     .param p0, "x$0"    # I
+ 
+     .line 1260
+@@ -1230,7 +1230,7 @@
+ .end method
+ 
+ .method static synthetic lambda$open$0(IILjava/util/Map$Entry;)Z
+-    .registers 4
++    .locals 1
+     .param p0, "serviceClass"    # I
+     .param p1, "phoneId"    # I
+     .param p2, "value"    # Ljava/util/Map$Entry;
+@@ -1240,7 +1240,7 @@
+ 
+     move-result-object v0
+ 
+-    if-eqz v0, :cond_20
++    if-eqz v0, :cond_0
+ 
+     .line 198
+     invoke-interface {p2}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+@@ -1253,7 +1253,7 @@
+ 
+     move-result v0
+ 
+-    if-ne v0, p0, :cond_20
++    if-ne v0, p0, :cond_0
+ 
+     invoke-interface {p2}, Ljava/util/Map$Entry;->getValue()Ljava/lang/Object;
+ 
+@@ -1265,22 +1265,22 @@
+ 
+     move-result v0
+ 
+-    if-ne v0, p1, :cond_20
++    if-ne v0, p1, :cond_0
+ 
+     const/4 v0, 0x1
+ 
+-    goto :goto_21
++    goto :goto_0
+ 
+-    :cond_20
++    :cond_0
+     const/4 v0, 0x0
+ 
+     .line 197
+-    :goto_21
++    :goto_0
+     return v0
+ .end method
+ 
+ .method static synthetic lambda$open$1(Ljava/util/Map$Entry;)Ljava/lang/Integer;
+-    .registers 2
++    .locals 1
+     .param p0, "value"    # Ljava/util/Map$Entry;
+ 
+     .line 199
+@@ -1296,7 +1296,7 @@
+ 
+ # virtual methods
+ .method public acknowledgeSms(IIII)V
+-    .registers 8
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "token"    # I
+     .param p3, "messageRef"    # I
+@@ -1358,7 +1358,7 @@
+ 
+     aget-object v1, v0, p1
+ 
+-    if-eqz v1, :cond_43
++    if-eqz v1, :cond_0
+ 
+     .line 850
+     aget-object v0, v0, p1
+@@ -1369,7 +1369,7 @@
+     return-void
+ 
+     .line 848
+-    :cond_43
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -1378,7 +1378,7 @@
+ .end method
+ 
+ .method public acknowledgeSmsReport(IIII)V
+-    .registers 8
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "token"    # I
+     .param p3, "messageRef"    # I
+@@ -1440,7 +1440,7 @@
+ 
+     aget-object v1, v0, p1
+ 
+-    if-eqz v1, :cond_43
++    if-eqz v1, :cond_0
+ 
+     .line 860
+     aget-object v0, v0, p1
+@@ -1451,7 +1451,7 @@
+     return-void
+ 
+     .line 858
+-    :cond_43
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -1460,7 +1460,7 @@
+ .end method
+ 
+ .method public acknowledgeSmsWithPdu(III[B)V
+-    .registers 8
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "token"    # I
+     .param p3, "msgRef"    # I
+@@ -1508,7 +1508,7 @@
+ 
+     aget-object v1, v0, p1
+ 
+-    if-eqz v1, :cond_30
++    if-eqz v1, :cond_0
+ 
+     .line 870
+     aget-object v0, v0, p1
+@@ -1519,7 +1519,7 @@
+     return-void
+ 
+     .line 868
+-    :cond_30
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -1528,7 +1528,7 @@
+ .end method
+ 
+ .method public addRegistrationListener(IILcom/android/ims/internal/IImsRegistrationListener;)V
+-    .registers 7
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "serviceClass"    # I
+     .param p3, "listener"    # Lcom/android/ims/internal/IImsRegistrationListener;
+@@ -1547,7 +1547,7 @@
+ .end method
+ 
+ .method public changeAudioPath(II)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "direction"    # I
+     .annotation system Ldalvik/annotation/Throws;
+@@ -1568,7 +1568,7 @@
+     .line 759
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_11
++    if-eqz v0, :cond_0
+ 
+     .line 762
+     invoke-virtual {v0, p1, p2}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->updateAudioInterface(II)V
+@@ -1577,7 +1577,7 @@
+     return-void
+ 
+     .line 760
+-    :cond_11
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -1586,7 +1586,7 @@
+ .end method
+ 
+ .method public close(I)V
+-    .registers 5
++    .locals 3
+     .param p1, "serviceId"    # I
+ 
+     .line 240
+@@ -1609,7 +1609,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_21
++    if-eqz v0, :cond_0
+ 
+     .line 243
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -1625,12 +1625,12 @@
+     check-cast v0, Lcom/google/ims/internal/ServiceProfile;
+ 
+     .line 245
+-    :cond_21
++    :cond_0
+     return-void
+ .end method
+ 
+ .method public createCallProfile(III)Landroid/telephony/ims/ImsCallProfile;
+-    .registers 14
++    .locals 10
+     .param p1, "serviceId"    # I
+     .param p2, "serviceType"    # I
+     .param p3, "callType"    # I
+@@ -1693,7 +1693,7 @@
+ 
+     move-result v1
+ 
+-    if-eqz v1, :cond_9e
++    if-eqz v1, :cond_5
+ 
+     .line 346
+     new-instance v1, Landroid/telephony/ims/ImsCallProfile;
+@@ -1717,7 +1717,7 @@
+ 
+     .line 349
+     .local v2, "registrations":[Lcom/sec/ims/ImsRegistration;
+-    if-eqz v2, :cond_9d
++    if-eqz v2, :cond_4
+ 
+     .line 350
+     array-length v3, v2
+@@ -1726,32 +1726,32 @@
+ 
+     move v5, v4
+ 
+-    :goto_4f
+-    if-ge v5, v3, :cond_9d
++    :goto_0
++    if-ge v5, v3, :cond_4
+ 
+     aget-object v6, v2, v5
+ 
+     .line 352
+     .local v6, "regi":Lcom/sec/ims/ImsRegistration;
+-    if-eqz v6, :cond_9a
++    if-eqz v6, :cond_3
+ 
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v7
+ 
+-    if-eqz v7, :cond_9a
++    if-eqz v7, :cond_3
+ 
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
+ 
+     move-result v7
+ 
+-    if-nez v7, :cond_62
++    if-nez v7, :cond_0
+ 
+     .line 353
+-    goto :goto_9a
++    goto :goto_3
+ 
+     .line 356
+-    :cond_62
++    :cond_0
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v7
+@@ -1768,26 +1768,26 @@
+     .local v7, "mno":Lcom/sec/internal/ims/util/Mno;
+     sget-object v8, Lcom/sec/internal/ims/util/Mno;->VZW:Lcom/sec/internal/ims/util/Mno;
+ 
+-    if-eq v7, v8, :cond_79
++    if-eq v7, v8, :cond_2
+ 
+     sget-object v8, Lcom/sec/internal/ims/util/Mno;->USCC:Lcom/sec/internal/ims/util/Mno;
+ 
+-    if-ne v7, v8, :cond_77
++    if-ne v7, v8, :cond_1
+ 
+-    goto :goto_79
++    goto :goto_1
+ 
+-    :cond_77
++    :cond_1
+     move v8, v4
+ 
+-    goto :goto_7a
++    goto :goto_2
+ 
+-    :cond_79
+-    :goto_79
++    :cond_2
++    :goto_1
+     const/4 v8, 0x1
+ 
+     .line 359
+     .local v8, "supportHeldHostMerge":Z
+-    :goto_7a
++    :goto_2
+     const-string v9, "SupportHeldHostMerge"
+ 
+     invoke-virtual {v1, v9, v8}, Landroid/telephony/ims/ImsCallProfile;->setCallExtraBoolean(Ljava/lang/String;Z)V
+@@ -1795,7 +1795,7 @@
+     .line 362
+     const/4 v9, 0x2
+ 
+-    if-eq p2, v9, :cond_9a
++    if-eq p2, v9, :cond_3
+ 
+     .line 363
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+@@ -1806,7 +1806,7 @@
+ 
+     move-result v9
+ 
+-    if-nez v9, :cond_9a
++    if-nez v9, :cond_3
+ 
+     .line 364
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->getCurrentRat()I
+@@ -1822,27 +1822,27 @@
+     invoke-virtual {v1, v4, v3}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 365
+-    goto :goto_9d
++    goto :goto_4
+ 
+     .line 350
+     .end local v6    # "regi":Lcom/sec/ims/ImsRegistration;
+     .end local v7    # "mno":Lcom/sec/internal/ims/util/Mno;
+     .end local v8    # "supportHeldHostMerge":Z
+-    :cond_9a
+-    :goto_9a
++    :cond_3
++    :goto_3
+     add-int/lit8 v5, v5, 0x1
+ 
+-    goto :goto_4f
++    goto :goto_0
+ 
+     .line 370
+-    :cond_9d
+-    :goto_9d
++    :cond_4
++    :goto_4
+     return-object v1
+ 
+     .line 372
+     .end local v1    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .end local v2    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :cond_9e
++    :cond_5
+     new-instance v1, Landroid/os/RemoteException;
+ 
+     invoke-direct {v1}, Landroid/os/RemoteException;-><init>()V
+@@ -1851,7 +1851,7 @@
+ .end method
+ 
+ .method public createCallSession(ILandroid/telephony/ims/ImsCallProfile;Lcom/android/ims/internal/IImsCallSessionListener;)Lcom/android/ims/internal/IImsCallSession;
+-    .registers 23
++    .locals 19
+     .param p1, "serviceId"    # I
+     .param p2, "profile"    # Landroid/telephony/ims/ImsCallProfile;
+     .param p3, "listener"    # Lcom/android/ims/internal/IImsCallSessionListener;
+@@ -1890,11 +1890,11 @@
+ 
+     const-string v7, "GoogleImsService"
+ 
+-    if-eqz v6, :cond_2af
++    if-eqz v6, :cond_16
+ 
+     iget-object v6, v1, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v6, :cond_2af
++    if-eqz v6, :cond_16
+ 
+     .line 392
+     sget-object v6, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -1911,7 +1911,7 @@
+ 
+     .line 394
+     .local v6, "service":Lcom/google/ims/internal/ServiceProfile;
+-    :try_start_2d
++    :try_start_0
+     iget-object v8, v1, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     invoke-virtual {v6}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+@@ -1924,18 +1924,18 @@
+ 
+     sget v9, Lcom/sec/ims/extensions/Extensions$TelecomManager;->TTY_MODE_OFF:I
+ 
+-    if-eq v8, v9, :cond_3d
++    if-eq v8, v9, :cond_0
+ 
+     const/4 v8, 0x1
+ 
+-    goto :goto_3e
++    goto :goto_0
+ 
+-    :cond_3d
++    :cond_0
+     const/4 v8, 0x0
+ 
+     .line 395
+     .local v8, "isTtyMode":Z
+-    :goto_3e
++    :goto_0
+     invoke-virtual {v6}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+ 
+     move-result v9
+@@ -1964,7 +1964,7 @@
+ 
+     .line 403
+     .local v14, "oemExtras":Landroid/os/Bundle;
+-    if-eqz v14, :cond_84
++    if-eqz v14, :cond_2
+ 
+     .line 404
+     const-string v15, "com.samsung.telephony.extra.CALL_START_WITH_JANSKY_MSISDN"
+@@ -1979,7 +1979,7 @@
+ 
+     move-result v16
+ 
+-    if-nez v16, :cond_79
++    if-nez v16, :cond_1
+ 
+     .line 407
+     const-string v10, "createCallSession with Jansky MSISDN"
+@@ -1999,7 +1999,7 @@
+ 
+     .line 410
+     .local v10, "normalizedUri":Lcom/sec/ims/util/ImsUri;
+-    if-eqz v10, :cond_79
++    if-eqz v10, :cond_1
+ 
+     .line 411
+     invoke-static {v10}, Lcom/sec/internal/ims/util/UriUtil;->getMsisdnNumber(Lcom/sec/ims/util/ImsUri;)Ljava/lang/String;
+@@ -2013,12 +2013,12 @@
+ 
+     .line 415
+     .end local v10    # "normalizedUri":Lcom/sec/ims/util/ImsUri;
+-    :cond_79
++    :cond_1
+     invoke-virtual {v14, v5}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v10
+ 
+-    if-eqz v10, :cond_84
++    if-eqz v10, :cond_2
+ 
+     .line 416
+     invoke-virtual {v14, v5}, Landroid/os/Bundle;->getInt(Ljava/lang/String;)I
+@@ -2029,7 +2029,7 @@
+ 
+     .line 420
+     .end local v15    # "janskyMsisdn":Ljava/lang/String;
+-    :cond_84
++    :cond_2
+     iget-object v5, v1, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     invoke-virtual {v6}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+@@ -2039,17 +2039,17 @@
+     invoke-virtual {v5, v10}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->isMdecRegExist(I)Z
+ 
+     move-result v5
+-    :try_end_8e
+-    .catch Landroid/os/RemoteException; {:try_start_2d .. :try_end_8e} :catch_2aa
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     const-string v10, ""
+ 
+     const/4 v11, -0x1
+ 
+-    if-eqz v5, :cond_18b
++    if-eqz v5, :cond_a
+ 
+     .line 421
+-    :try_start_93
++    :try_start_1
+     new-instance v5, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+@@ -2067,14 +2067,14 @@
+     invoke-static {v7, v5}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 422
+-    if-eqz v14, :cond_e1
++    if-eqz v14, :cond_4
+ 
+     .line 423
+     invoke-virtual {v14, v4}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v5
+ 
+-    if-eqz v5, :cond_cd
++    if-eqz v5, :cond_3
+ 
+     .line 424
+     const/4 v5, -0x1
+@@ -2105,19 +2105,19 @@
+     invoke-static {v7, v5}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 427
+-    if-lez v4, :cond_cd
++    if-lez v4, :cond_3
+ 
+     .line 428
+     invoke-virtual {v9, v4}, Lcom/sec/ims/volte2/data/CallProfile;->setMdecBoundSessionId(I)V
+ 
+     .line 431
+     .end local v4    # "boundSessionId":I
+-    :cond_cd
++    :cond_3
+     invoke-virtual {v14, v0}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v4
+ 
+-    if-eqz v4, :cond_e1
++    if-eqz v4, :cond_4
+ 
+     .line 432
+     move-object v4, v10
+@@ -2135,17 +2135,17 @@
+ 
+     move-result v4
+ 
+-    if-nez v4, :cond_e1
++    if-nez v4, :cond_4
+ 
+     .line 435
+     invoke-virtual {v9, v0}, Lcom/sec/ims/volte2/data/CallProfile;->setLetteringText(Ljava/lang/String;)V
+ 
+     .line 440
+     .end local v0    # "dialFrom":Ljava/lang/String;
+-    :cond_e1
++    :cond_4
+     const/4 v0, 0x1
+ 
+-    if-ne v12, v0, :cond_137
++    if-ne v12, v0, :cond_7
+ 
+     .line 441
+     const-string v0, "create session on CMC PD"
+@@ -2208,20 +2208,20 @@
+ 
+     move v13, v5
+ 
+-    if-eq v5, v11, :cond_12c
++    if-eq v5, v11, :cond_6
+ 
+     .line 449
+-    if-ne v0, v4, :cond_120
++    if-ne v0, v4, :cond_5
+ 
+     .line 454
+     .end local v0    # "mdecLineSlotIndex":I
+     .end local v4    # "phoneId":I
+-    goto :goto_18b
++    goto :goto_2
+ 
+     .line 450
+     .restart local v0    # "mdecLineSlotIndex":I
+     .restart local v4    # "phoneId":I
+-    :cond_120
++    :cond_5
+     const-string/jumbo v5, "phoneId and mdecLineSlotIndex are not matched"
+ 
+     .line 451
+@@ -2247,7 +2247,7 @@
+     .restart local p1    # "serviceId":I
+     .restart local p2    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .restart local p3    # "listener":Lcom/android/ims/internal/IImsCallSessionListener;
+-    :cond_12c
++    :cond_6
+     const-string v5, "CMC PD is not registered."
+ 
+     .line 447
+@@ -2275,14 +2275,14 @@
+     .restart local p1    # "serviceId":I
+     .restart local p2    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .restart local p3    # "listener":Lcom/android/ims/internal/IImsCallSessionListener;
+-    :cond_137
++    :cond_7
+     const-string v0, "CallPull"
+ 
+     invoke-virtual {v3, v0}, Landroid/telephony/ims/ImsCallProfile;->getCallExtraBoolean(Ljava/lang/String;)Z
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_146
++    if-eqz v0, :cond_8
+ 
+     .line 456
+     const-string v0, "CMC pulling call. Route to SD handle"
+@@ -2292,10 +2292,10 @@
+     .line 457
+     const/4 v12, 0x2
+ 
+-    goto :goto_158
++    goto :goto_1
+ 
+     .line 458
+-    :cond_146
++    :cond_8
+     iget-object v0, v1, Lcom/google/ims/GoogleImsService;->mContext:Landroid/content/Context;
+ 
+     invoke-static {v0}, Lcom/sec/internal/ims/util/os/TelephonyManagerWrapper;->getInstance(Landroid/content/Context;)Lcom/sec/internal/ims/util/os/ITelephonyManager;
+@@ -2306,7 +2306,7 @@
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_158
++    if-nez v0, :cond_9
+ 
+     .line 459
+     const-string v0, "Voice not supported. Route to SD handle"
+@@ -2317,8 +2317,8 @@
+     const/4 v12, 0x2
+ 
+     .line 463
+-    :cond_158
+-    :goto_158
++    :cond_9
++    :goto_1
+     new-instance v0, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+@@ -2364,8 +2364,8 @@
+     move v13, v0
+ 
+     .line 468
+-    :cond_18b
+-    :goto_18b
++    :cond_a
++    :goto_2
+     invoke-virtual {v9, v12}, Lcom/sec/ims/volte2/data/CallProfile;->setCmcType(I)V
+ 
+     .line 470
+@@ -2384,33 +2384,33 @@
+ 
+     .line 472
+     .local v0, "registrations":[Lcom/sec/ims/ImsRegistration;
+-    if-eqz v0, :cond_202
++    if-eqz v0, :cond_10
+ 
+     .line 473
+     array-length v4, v0
+ 
+     const/4 v5, 0x0
+ 
+-    :goto_19e
+-    if-ge v5, v4, :cond_1ff
++    :goto_3
++    if-ge v5, v4, :cond_f
+ 
+     aget-object v15, v0, v5
+ 
+     .line 474
+     .local v15, "regi":Lcom/sec/ims/ImsRegistration;
+-    if-eqz v15, :cond_1f7
++    if-eqz v15, :cond_d
+ 
+     invoke-virtual {v15}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v18
+ 
+-    if-eqz v18, :cond_1f7
++    if-eqz v18, :cond_d
+ 
+     invoke-virtual {v15}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
+ 
+     move-result v18
+ 
+-    if-eqz v18, :cond_1f7
++    if-eqz v18, :cond_d
+ 
+     invoke-virtual {v15}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+@@ -2420,15 +2420,15 @@
+ 
+     move-result v11
+ 
+-    if-eq v12, v11, :cond_1bd
++    if-eq v12, v11, :cond_b
+ 
+     .line 475
+     move-object/from16 v18, v0
+ 
+-    goto :goto_1f9
++    goto :goto_5
+ 
+     .line 478
+-    :cond_1bd
++    :cond_b
+     invoke-virtual {v9}, Lcom/sec/ims/volte2/data/CallProfile;->getUrn()Ljava/lang/String;
+ 
+     move-result-object v11
+@@ -2439,7 +2439,7 @@
+     .local v18, "registrations":[Lcom/sec/ims/ImsRegistration;
+     const-string/jumbo v0, "urn:service:unspecified"
+ 
+-    if-ne v11, v0, :cond_1f9
++    if-ne v11, v0, :cond_e
+ 
+     .line 479
+     iget-object v0, v1, Lcom/google/ims/GoogleImsService;->mServiceUrn:Ljava/lang/String;
+@@ -2448,17 +2448,17 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_1d7
++    if-eqz v0, :cond_c
+ 
+     .line 480
+     const-string/jumbo v0, "urn:service:sos"
+ 
+     invoke-virtual {v9, v0}, Lcom/sec/ims/volte2/data/CallProfile;->setUrn(Ljava/lang/String;)V
+ 
+-    goto :goto_1de
++    goto :goto_4
+ 
+     .line 482
+-    :cond_1d7
++    :cond_c
+     iget-object v0, v1, Lcom/google/ims/GoogleImsService;->mServiceUrn:Ljava/lang/String;
+ 
+     invoke-virtual {v9, v0}, Lcom/sec/ims/volte2/data/CallProfile;->setUrn(Ljava/lang/String;)V
+@@ -2467,7 +2467,7 @@
+     iput-object v10, v1, Lcom/google/ims/GoogleImsService;->mServiceUrn:Ljava/lang/String;
+ 
+     .line 485
+-    :goto_1de
++    :goto_4
+     new-instance v0, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+@@ -2488,54 +2488,54 @@
+ 
+     invoke-static {v7, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+-    goto :goto_1f9
++    goto :goto_5
+ 
+     .line 474
+     .end local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .restart local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :cond_1f7
++    :cond_d
+     move-object/from16 v18, v0
+ 
+     .line 473
+     .end local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .end local v15    # "regi":Lcom/sec/ims/ImsRegistration;
+     .restart local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :cond_1f9
+-    :goto_1f9
++    :cond_e
++    :goto_5
+     add-int/lit8 v5, v5, 0x1
+ 
+     move-object/from16 v0, v18
+ 
+     const/4 v11, -0x1
+ 
+-    goto :goto_19e
++    goto :goto_3
+ 
+     .end local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .restart local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :cond_1ff
++    :cond_f
+     move-object/from16 v18, v0
+ 
+     .end local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .restart local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    goto :goto_204
++    goto :goto_6
+ 
+     .line 472
+     .end local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .restart local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :cond_202
++    :cond_10
+     move-object/from16 v18, v0
+ 
+     .line 490
+     .end local v0    # "registrations":[Lcom/sec/ims/ImsRegistration;
+     .restart local v18    # "registrations":[Lcom/sec/ims/ImsRegistration;
+-    :goto_204
++    :goto_6
+     invoke-static {}, Lcom/sec/internal/ims/config/ImsUtil;->isSoftphoneEnabled()Z
+ 
+     move-result v0
+ 
+     const/4 v4, 0x0
+ 
+-    if-eqz v0, :cond_21f
++    if-eqz v0, :cond_11
+ 
+     .line 491
+     invoke-virtual {v9}, Lcom/sec/ims/volte2/data/CallProfile;->getCallType()I
+@@ -2544,7 +2544,7 @@
+ 
+     const/4 v5, 0x7
+ 
+-    if-ne v0, v5, :cond_21f
++    if-ne v0, v5, :cond_11
+ 
+     .line 492
+     const-string v0, "createCallSession: ATT Softphone : Change Emergency Call type to Normal Voice"
+@@ -2560,7 +2560,7 @@
+     invoke-virtual {v9, v4}, Lcom/sec/ims/volte2/data/CallProfile;->setUrn(Ljava/lang/String;)V
+ 
+     .line 496
+-    :cond_21f
++    :cond_11
+     new-instance v0, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+@@ -2580,7 +2580,7 @@
+     .line 497
+     const/4 v0, -0x1
+ 
+-    if-eq v13, v0, :cond_23d
++    if-eq v13, v0, :cond_12
+ 
+     .line 498
+     iget-object v0, v1, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+@@ -2590,14 +2590,14 @@
+     move-result-object v0
+ 
+     .local v0, "secCallSession":Lcom/sec/ims/volte2/IImsCallSession;
+-    goto :goto_275
++    goto :goto_7
+ 
+     .line 499
+     .end local v0    # "secCallSession":Lcom/sec/ims/volte2/IImsCallSession;
+-    :cond_23d
++    :cond_12
+     const/4 v0, 0x1
+ 
+-    if-eq v12, v0, :cond_2a4
++    if-eq v12, v0, :cond_15
+ 
+     .line 502
+     invoke-static {}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getInstance()Lcom/sec/internal/ims/imsservice/ImsServiceStub;
+@@ -2622,11 +2622,11 @@
+ 
+     move-result v10
+ 
+-    if-eqz v10, :cond_26e
++    if-eqz v10, :cond_13
+ 
+     const/4 v10, -0x1
+ 
+-    if-ne v5, v10, :cond_26e
++    if-ne v5, v10, :cond_13
+ 
+     iget-object v10, v1, Lcom/google/ims/GoogleImsService;->mContext:Landroid/content/Context;
+ 
+@@ -2639,9 +2639,9 @@
+ 
+     move-result v10
+ 
+-    if-eqz v10, :cond_26e
++    if-eqz v10, :cond_13
+ 
+-    if-nez v12, :cond_26e
++    if-nez v12, :cond_13
+ 
+     .line 507
+     const-string/jumbo v10, "setForceCSFB because VoLTE is not registered."
+@@ -2654,7 +2654,7 @@
+     invoke-virtual {v9, v7}, Lcom/sec/ims/volte2/data/CallProfile;->setForceCSFB(Z)V
+ 
+     .line 510
+-    :cond_26e
++    :cond_13
+     iget-object v7, v1, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     invoke-virtual {v7, v9}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->createSession(Lcom/sec/ims/volte2/data/CallProfile;)Lcom/sec/internal/ims/volte2/ImsCallSession;
+@@ -2666,8 +2666,8 @@
+     .line 513
+     .end local v5    # "volteRegHandle":I
+     .local v0, "secCallSession":Lcom/sec/ims/volte2/IImsCallSession;
+-    :goto_275
+-    if-eqz v0, :cond_29e
++    :goto_7
++    if-eqz v0, :cond_14
+ 
+     .line 517
+     const-string v5, "CallRadioTech"
+@@ -2714,7 +2714,7 @@
+ 
+     .line 514
+     .end local v4    # "session":Lcom/google/ims/ImsCallSessionImpl;
+-    :cond_29e
++    :cond_14
+     new-instance v4, Landroid/os/RemoteException;
+ 
+     invoke-direct {v4}, Landroid/os/RemoteException;-><init>()V
+@@ -2733,7 +2733,7 @@
+     .restart local p1    # "serviceId":I
+     .restart local p2    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .restart local p3    # "listener":Lcom/android/ims/internal/IImsCallSessionListener;
+-    :cond_2a4
++    :cond_15
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -2744,8 +2744,8 @@
+     .end local p2    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .end local p3    # "listener":Lcom/android/ims/internal/IImsCallSessionListener;
+     throw v0
+-    :try_end_2aa
+-    .catch Landroid/os/RemoteException; {:try_start_93 .. :try_end_2aa} :catch_2aa
++    :try_end_1
++    .catch Landroid/os/RemoteException; {:try_start_1 .. :try_end_1} :catch_0
+ 
+     .line 522
+     .end local v8    # "isTtyMode":Z
+@@ -2759,7 +2759,7 @@
+     .restart local p1    # "serviceId":I
+     .restart local p2    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .restart local p3    # "listener":Lcom/android/ims/internal/IImsCallSessionListener;
+-    :catch_2aa
++    :catch_0
+     move-exception v0
+ 
+     .line 523
+@@ -2772,7 +2772,7 @@
+ 
+     .line 388
+     .end local v6    # "service":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_2af
++    :cond_16
+     new-instance v0, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+@@ -2802,7 +2802,7 @@
+ .end method
+ 
+ .method public enterEmergencyCallbackMode(I)V
+-    .registers 4
++    .locals 2
+     .param p1, "phoneId"    # I
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+@@ -2843,7 +2843,7 @@
+ .end method
+ 
+ .method public getCallSession(I)Lcom/google/ims/ImsCallSessionImpl;
+-    .registers 4
++    .locals 2
+     .param p1, "callId"    # I
+ 
+     .line 977
+@@ -2863,7 +2863,7 @@
+ .end method
+ 
+ .method public getConferenceHost()Lcom/google/ims/ImsCallSessionImpl;
+-    .registers 2
++    .locals 1
+ 
+     .line 961
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mConferenceHost:Lcom/google/ims/ImsCallSessionImpl;
+@@ -2872,7 +2872,7 @@
+ .end method
+ 
+ .method public getConfigInterface(I)Lcom/android/ims/internal/IImsConfig;
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 665
+@@ -2895,7 +2895,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_22
++    if-eqz v0, :cond_0
+ 
+     .line 668
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mConfigs:Ljava/util/Map;
+@@ -2913,7 +2913,7 @@
+     return-object v0
+ 
+     .line 670
+-    :cond_22
++    :cond_0
+     new-instance v0, Lcom/google/ims/ImsConfigImpl;
+ 
+     invoke-direct {v0, p1}, Lcom/google/ims/ImsConfigImpl;-><init>(I)V
+@@ -2933,7 +2933,7 @@
+ .end method
+ 
+ .method public getContext()Landroid/content/Context;
+-    .registers 2
++    .locals 1
+ 
+     .line 816
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mContext:Landroid/content/Context;
+@@ -2942,7 +2942,7 @@
+ .end method
+ 
+ .method public bridge synthetic getEcbmInterface(I)Lcom/android/ims/internal/IImsEcbm;
+-    .registers 2
++    .locals 0
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+             Landroid/os/RemoteException;
+@@ -2958,7 +2958,7 @@
+ .end method
+ 
+ .method public getEcbmInterface(I)Lcom/google/ims/ImsEcbmImpl;
+-    .registers 5
++    .locals 3
+     .param p1, "serviceId"    # I
+ 
+     .line 688
+@@ -3016,7 +3016,7 @@
+ .end method
+ 
+ .method public getImsConferenceState()Landroid/telephony/ims/ImsConferenceState;
+-    .registers 7
++    .locals 6
+ 
+     .line 1008
+     new-instance v0, Landroid/telephony/ims/ImsConferenceState;
+@@ -3035,12 +3035,12 @@
+ 
+     move-result-object v1
+ 
+-    :goto_f
++    :goto_0
+     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_31
++    if-eqz v2, :cond_0
+ 
+     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -3072,15 +3072,15 @@
+ 
+     .line 1012
+     .end local v2    # "conference":Ljava/util/Map$Entry;, "Ljava/util/Map$Entry<Ljava/lang/Integer;Landroid/os/Bundle;>;"
+-    goto :goto_f
++    goto :goto_0
+ 
+     .line 1014
+-    :cond_31
++    :cond_0
+     return-object v0
+ .end method
+ 
+ .method public getImsNotifier()Lcom/google/ims/GoogleImsService$ImsNotifier;
+-    .registers 2
++    .locals 1
+ 
+     .line 1324
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mImsNotifier:Lcom/google/ims/GoogleImsService$ImsNotifier;
+@@ -3089,7 +3089,7 @@
+ .end method
+ 
+ .method public getMultiEndpointInterface(I)Lcom/android/ims/internal/IImsMultiEndpoint;
+-    .registers 7
++    .locals 5
+     .param p1, "serviceId"    # I
+ 
+     .line 735
+@@ -3135,7 +3135,7 @@
+ 
+     .line 740
+     .local v0, "service":Lcom/google/ims/internal/ServiceProfile;
+-    if-nez v0, :cond_43
++    if-nez v0, :cond_0
+ 
+     .line 741
+     new-instance v2, Ljava/lang/StringBuilder;
+@@ -3160,7 +3160,7 @@
+     return-object v1
+ 
+     .line 745
+-    :cond_43
++    :cond_0
+     invoke-virtual {v0}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+ 
+     move-result v1
+@@ -3177,7 +3177,7 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_60
++    if-eqz v2, :cond_1
+ 
+     .line 748
+     sget-object v2, Lcom/google/ims/GoogleImsService;->mMultEndPoints:Ljava/util/Map;
+@@ -3195,7 +3195,7 @@
+     return-object v2
+ 
+     .line 750
+-    :cond_60
++    :cond_1
+     new-instance v2, Lcom/google/ims/ImsMultiEndPointImpl;
+ 
+     invoke-virtual {v0}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
+@@ -3219,7 +3219,7 @@
+ .end method
+ 
+ .method public getOirExtraFromDialingNumber(Ljava/lang/String;)I
+-    .registers 5
++    .locals 3
+     .param p1, "number"    # Ljava/lang/String;
+ 
+     .line 1121
+@@ -3231,20 +3231,20 @@
+ 
+     const/4 v1, 0x3
+ 
+-    if-eqz v0, :cond_b
++    if-eqz v0, :cond_0
+ 
+     .line 1122
+     return v1
+ 
+     .line 1123
+-    :cond_b
++    :cond_0
+     const-string v0, "RESTRICTED"
+ 
+     invoke-virtual {v0, p1}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_40
++    if-nez v0, :cond_5
+ 
+     sget-object v0, Ljava/util/Locale;->US:Ljava/util/Locale;
+ 
+@@ -3259,19 +3259,19 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_22
++    if-eqz v0, :cond_1
+ 
+-    goto :goto_40
++    goto :goto_1
+ 
+     .line 1126
+-    :cond_22
++    :cond_1
+     const-string v0, "Coin line/payphone"
+ 
+     invoke-virtual {v0, p1}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_2c
++    if-eqz v0, :cond_2
+ 
+     .line 1127
+     const/4 v0, 0x4
+@@ -3279,14 +3279,14 @@
+     return v0
+ 
+     .line 1128
+-    :cond_2c
++    :cond_2
+     const-string v0, "Interaction with other service"
+ 
+     invoke-virtual {v0, p1}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_3f
++    if-nez v0, :cond_4
+ 
+     .line 1129
+     const-string v0, "Unavailable"
+@@ -3295,31 +3295,31 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_3d
++    if-eqz v0, :cond_3
+ 
+-    goto :goto_3f
++    goto :goto_0
+ 
+     .line 1132
+-    :cond_3d
++    :cond_3
+     const/4 v0, 0x2
+ 
+     return v0
+ 
+     .line 1130
+-    :cond_3f
+-    :goto_3f
++    :cond_4
++    :goto_0
+     return v1
+ 
+     .line 1125
+-    :cond_40
+-    :goto_40
++    :cond_5
++    :goto_1
+     const/4 v0, 0x1
+ 
+     return v0
+ .end method
+ 
+ .method public getOirExtraFromDialingNumberForDcm(Ljava/lang/String;)I
+-    .registers 4
++    .locals 2
+     .param p1, "Pletteting"    # Ljava/lang/String;
+ 
+     .line 1136
+@@ -3346,7 +3346,7 @@
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_26
++    if-nez v0, :cond_0
+ 
+     const-string v0, "Anonymous"
+ 
+@@ -3354,7 +3354,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_26
++    if-eqz v0, :cond_0
+ 
+     .line 1138
+     const/4 v0, 0x1
+@@ -3362,12 +3362,12 @@
+     return v0
+ 
+     .line 1139
+-    :cond_26
++    :cond_0
+     invoke-static {p1}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_36
++    if-nez v0, :cond_1
+ 
+     const-string v0, "Coin line/payphone"
+ 
+@@ -3375,7 +3375,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_36
++    if-eqz v0, :cond_1
+ 
+     .line 1140
+     const/4 v0, 0x4
+@@ -3383,18 +3383,18 @@
+     return v0
+ 
+     .line 1141
+-    :cond_36
++    :cond_1
+     invoke-static {p1}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_44
++    if-nez v0, :cond_2
+ 
+     invoke-virtual {p1}, Ljava/lang/String;->length()I
+ 
+     move-result v0
+ 
+-    if-lez v0, :cond_44
++    if-lez v0, :cond_2
+ 
+     .line 1142
+     const/4 v0, 0x3
+@@ -3402,20 +3402,20 @@
+     return v0
+ 
+     .line 1144
+-    :cond_44
++    :cond_2
+     const/4 v0, 0x2
+ 
+     return v0
+ .end method
+ 
+ .method public getParticipantId(Ljava/lang/String;)I
+-    .registers 7
++    .locals 5
+     .param p1, "user"    # Ljava/lang/String;
+ 
+     .line 1063
+     const-string v0, "GoogleImsService"
+ 
+-    :try_start_2
++    :try_start_0
+     invoke-static {p1}, Ljava/lang/Integer;->parseInt(Ljava/lang/String;)I
+ 
+     move-result v1
+@@ -3432,29 +3432,29 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_18
++    if-eqz v2, :cond_0
+ 
+     .line 1065
+     const-string v2, "find Participant by CallID"
+ 
+     invoke-static {v0, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+-    :try_end_17
+-    .catch Ljava/lang/IllegalArgumentException; {:try_start_2 .. :try_end_17} :catch_19
++    :try_end_0
++    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 1066
+     return v1
+ 
+     .line 1070
+     .end local v1    # "callId":I
+-    :cond_18
+-    goto :goto_1a
++    :cond_0
++    goto :goto_0
+ 
+     .line 1068
+-    :catch_19
++    :catch_0
+     move-exception v1
+ 
+     .line 1072
+-    :goto_1a
++    :goto_0
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService;->mImsConferenceState:Ljava/util/Map;
+ 
+     invoke-interface {v1}, Ljava/util/Map;->entrySet()Ljava/util/Set;
+@@ -3465,12 +3465,12 @@
+ 
+     move-result-object v1
+ 
+-    :goto_24
++    :goto_1
+     invoke-interface {v1}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_54
++    if-eqz v2, :cond_2
+ 
+     invoke-interface {v1}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -3496,7 +3496,7 @@
+ 
+     move-result v3
+ 
+-    if-eqz v3, :cond_53
++    if-eqz v3, :cond_1
+ 
+     .line 1074
+     const-string v1, "find Participant by User"
+@@ -3518,18 +3518,18 @@
+ 
+     .line 1077
+     .end local v2    # "participant":Ljava/util/Map$Entry;, "Ljava/util/Map$Entry<Ljava/lang/Integer;Landroid/os/Bundle;>;"
+-    :cond_53
+-    goto :goto_24
++    :cond_1
++    goto :goto_1
+ 
+     .line 1079
+-    :cond_54
++    :cond_2
+     const/4 v0, -0x1
+ 
+     return v0
+ .end method
+ 
+ .method public getPendingCallSession(ILjava/lang/String;)Lcom/android/ims/internal/IImsCallSession;
+-    .registers 22
++    .locals 19
+     .param p1, "serviceId"    # I
+     .param p2, "callId"    # Ljava/lang/String;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -3576,11 +3576,11 @@
+ 
+     const-string v4, "GoogleImsService"
+ 
+-    if-eqz v3, :cond_233
++    if-eqz v3, :cond_e
+ 
+     iget-object v3, v0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v3, :cond_233
++    if-eqz v3, :cond_e
+ 
+     .line 540
+     move-object/from16 v5, p2
+@@ -3591,6 +3591,54 @@
+ 
+     .line 541
+     .local v3, "session":Lcom/sec/ims/volte2/IImsCallSession;
++    if-eqz v3, :cond_pending_session_missing
++
++    invoke-interface {v3}, Lcom/sec/ims/volte2/IImsCallSession;->getPhoneId()I
++
++    move-result v5
++
++    if-eq v5, v2, :cond_pending_session_slot_ok
++
++    new-instance v6, Ljava/lang/StringBuilder;
++
++    invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
++
++    const-string/jumbo v7, "getPendingCallSession: service phoneId "
++
++    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
++
++    invoke-virtual {v6, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
++
++    const-string/jumbo v7, " != pending session phoneId "
++
++    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
++
++    invoke-virtual {v6, v5}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
++
++    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
++
++    move-result-object v6
++
++    invoke-static {v4, v6}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
++
++    new-instance v7, Landroid/os/RemoteException;
++
++    invoke-direct {v7, v6}, Landroid/os/RemoteException;-><init>(Ljava/lang/String;)V
++
++    throw v7
++
++    :cond_pending_session_missing
++    const-string/jumbo v5, "getPendingCallSession: no pending session"
++
++    invoke-static {v4, v5}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
++
++    new-instance v6, Landroid/os/RemoteException;
++
++    invoke-direct {v6, v5}, Landroid/os/RemoteException;-><init>(Ljava/lang/String;)V
++
++    throw v6
++
++    :cond_pending_session_slot_ok
+     invoke-static {}, Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;->values()[Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;
+ 
+     move-result-object v6
+@@ -3605,11 +3653,11 @@
+     .local v6, "sessionState":Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;
+     sget-object v7, Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;->EndingCall:Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;
+ 
+-    if-eq v6, v7, :cond_224
++    if-eq v6, v7, :cond_d
+ 
+     sget-object v7, Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;->EndedCall:Lcom/sec/internal/ims/volte2/ImsCallSession$STATE;
+ 
+-    if-eq v6, v7, :cond_224
++    if-eq v6, v7, :cond_d
+ 
+     .line 547
+     invoke-interface {v3}, Lcom/sec/ims/volte2/IImsCallSession;->getCallProfile()Lcom/sec/ims/volte2/data/CallProfile;
+@@ -3654,7 +3702,7 @@
+ 
+     .line 553
+     .local v9, "registration":Lcom/sec/ims/ImsRegistration;
+-    if-eqz v9, :cond_9c
++    if-eqz v9, :cond_3
+ 
+     .line 554
+     invoke-virtual {v9}, Lcom/sec/ims/ImsRegistration;->getCurrentRat()I
+@@ -3667,7 +3715,7 @@
+ 
+     move-result v13
+ 
+-    if-eqz v13, :cond_72
++    if-eqz v13, :cond_0
+ 
+     .line 556
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getRadioTech()I
+@@ -3675,7 +3723,7 @@
+     move-result v11
+ 
+     .line 558
+-    :cond_72
++    :cond_0
+     invoke-interface {v3}, Lcom/sec/ims/volte2/IImsCallSession;->getMdecType()I
+ 
+     move-result v13
+@@ -3684,7 +3732,7 @@
+ 
+     const-string v15, "CallRadioTech"
+ 
+-    if-ne v13, v14, :cond_8b
++    if-ne v13, v14, :cond_1
+ 
+     .line 559
+     const-string/jumbo v13, "set EXTRA_CALL_RAT_TYPE as RIL_RADIO_TECHNOLOGY_LTE due to call icon in callend screen."
+@@ -3700,10 +3748,10 @@
+ 
+     invoke-virtual {v8, v15, v13}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+-    goto :goto_92
++    goto :goto_0
+ 
+     .line 562
+-    :cond_8b
++    :cond_1
+     invoke-static {v11}, Ljava/lang/String;->valueOf(I)Ljava/lang/String;
+ 
+     move-result-object v13
+@@ -3711,24 +3759,24 @@
+     invoke-virtual {v8, v15, v13}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 564
+-    :goto_92
++    :goto_0
+     const/16 v13, 0x12
+ 
+-    if-ne v11, v13, :cond_98
++    if-ne v11, v13, :cond_2
+ 
+     move v13, v12
+ 
+-    goto :goto_99
++    goto :goto_1
+ 
+-    :cond_98
++    :cond_2
+     const/4 v13, 0x0
+ 
+-    :goto_99
++    :goto_1
+     invoke-interface {v3, v13}, Lcom/sec/ims/volte2/IImsCallSession;->setEpdgStateNoNotify(Z)V
+ 
+     .line 567
+     .end local v11    # "currentRat":I
+-    :cond_9c
++    :cond_3
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getDialingNumber()Ljava/lang/String;
+ 
+     move-result-object v11
+@@ -3765,13 +3813,13 @@
+ 
+     move-result v14
+ 
+-    if-eqz v14, :cond_c1
++    if-eqz v14, :cond_4
+ 
+     .line 574
+     const-string/jumbo v11, "unknown"
+ 
+     .line 577
+-    :cond_c1
++    :cond_4
+     invoke-virtual {v9}, Lcom/sec/ims/ImsRegistration;->getImsProfile()Lcom/sec/ims/settings/ImsProfile;
+ 
+     move-result-object v14
+@@ -3792,7 +3840,7 @@
+     .local v15, "oir":I
+     sget-object v10, Lcom/sec/internal/ims/util/Mno;->DOCOMO:Lcom/sec/internal/ims/util/Mno;
+ 
+-    if-ne v14, v10, :cond_d7
++    if-ne v14, v10, :cond_5
+ 
+     .line 580
+     invoke-virtual {v0, v13}, Lcom/google/ims/GoogleImsService;->getOirExtraFromDialingNumberForDcm(Ljava/lang/String;)I
+@@ -3801,12 +3849,12 @@
+ 
+     .end local v15    # "oir":I
+     .local v10, "oir":I
+-    goto :goto_db
++    goto :goto_2
+ 
+     .line 582
+     .end local v10    # "oir":I
+     .restart local v15    # "oir":I
+-    :cond_d7
++    :cond_5
+     invoke-virtual {v0, v11}, Lcom/google/ims/GoogleImsService;->getOirExtraFromDialingNumber(Ljava/lang/String;)I
+ 
+     move-result v10
+@@ -3814,7 +3862,7 @@
+     .line 585
+     .end local v15    # "oir":I
+     .restart local v10    # "oir":I
+-    :goto_db
++    :goto_2
+     const-string/jumbo v15, "oir"
+ 
+     invoke-virtual {v8, v15, v10}, Landroid/telephony/ims/ImsCallProfile;->setCallExtraInt(Ljava/lang/String;I)V
+@@ -3923,7 +3971,7 @@
+ 
+     move-result-object v1
+ 
+-    if-eqz v1, :cond_166
++    if-eqz v1, :cond_7
+ 
+     .line 597
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getHistoryInfo()Ljava/lang/String;
+@@ -3947,27 +3995,27 @@
+ 
+     const-string v12, "com.samsung.telephony.extra.CALL_FORWARDING_PRESENTATION"
+ 
+-    if-eqz v1, :cond_161
++    if-eqz v1, :cond_6
+ 
+     .line 599
+     invoke-virtual {v8, v12, v15}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+-    goto :goto_166
++    goto :goto_3
+ 
+     .line 601
+-    :cond_161
++    :cond_6
+     const-string v1, "0"
+ 
+     invoke-virtual {v8, v12, v1}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 605
+-    :cond_166
+-    :goto_166
++    :cond_7
++    :goto_3
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getVerstat()Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+-    if-eqz v1, :cond_175
++    if-eqz v1, :cond_8
+ 
+     .line 608
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getVerstat()Ljava/lang/String;
+@@ -3979,24 +4027,24 @@
+     invoke-virtual {v8, v12, v1}, Landroid/telephony/ims/ImsCallProfile;->setCallExtra(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 611
+-    :cond_175
++    :cond_8
+     invoke-virtual {v7}, Lcom/sec/ims/volte2/data/CallProfile;->getHDIcon()I
+ 
+     move-result v1
+ 
+     const/4 v12, 0x1
+ 
+-    if-ne v1, v12, :cond_180
++    if-ne v1, v12, :cond_9
+ 
+     .line 612
+     const/4 v1, 0x0
+ 
+     iput v1, v8, Landroid/telephony/ims/ImsCallProfile;->mRestrictCause:I
+ 
+-    goto :goto_184
++    goto :goto_4
+ 
+     .line 614
+-    :cond_180
++    :cond_9
+     const/4 v1, 0x0
+ 
+     const/4 v12, 0x3
+@@ -4004,14 +4052,14 @@
+     iput v12, v8, Landroid/telephony/ims/ImsCallProfile;->mRestrictCause:I
+ 
+     .line 617
+-    :goto_184
++    :goto_4
+     iget-object v12, v0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+     invoke-virtual {v12, v2}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->isMdecRegExist(I)Z
+ 
+     move-result v12
+ 
+-    if-eqz v12, :cond_20e
++    if-eqz v12, :cond_c
+ 
+     .line 618
+     new-instance v12, Landroid/os/Bundle;
+@@ -4082,7 +4130,7 @@
+     .line 625
+     const/4 v2, 0x1
+ 
+-    if-ne v15, v2, :cond_204
++    if-ne v15, v2, :cond_b
+ 
+     .line 626
+     invoke-static {}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getInstance()Lcom/sec/internal/ims/imsservice/ImsServiceStub;
+@@ -4101,16 +4149,16 @@
+     .local v2, "mdecLineSlotIndex":I
+     const/4 v5, -0x1
+ 
+-    if-ne v2, v5, :cond_1e4
++    if-ne v2, v5, :cond_a
+ 
+     const/16 v16, 0x0
+ 
+-    goto :goto_1e6
++    goto :goto_5
+ 
+-    :cond_1e4
++    :cond_a
+     move/from16 v16, v2
+ 
+-    :goto_1e6
++    :goto_5
+     move/from16 v2, v16
+ 
+     .line 628
+@@ -4139,26 +4187,26 @@
+ 
+     invoke-virtual {v12, v1, v2}, Landroid/os/Bundle;->putInt(Ljava/lang/String;I)V
+ 
+-    goto :goto_206
++    goto :goto_6
+ 
+     .line 625
+     .end local v2    # "mdecLineSlotIndex":I
+     .end local v16    # "sessionId":I
+     .restart local v1    # "sessionId":I
+-    :cond_204
++    :cond_b
+     move/from16 v16, v1
+ 
+     .line 631
+     .end local v1    # "sessionId":I
+     .restart local v16    # "sessionId":I
+-    :goto_206
++    :goto_6
+     iget-object v1, v8, Landroid/telephony/ims/ImsCallProfile;->mCallExtras:Landroid/os/Bundle;
+ 
+     const-string v2, "OemCallExtras"
+ 
+     invoke-virtual {v1, v2, v12}, Landroid/os/Bundle;->putBundle(Ljava/lang/String;Landroid/os/Bundle;)V
+ 
+-    goto :goto_210
++    goto :goto_7
+ 
+     .line 617
+     .end local v12    # "extras":Landroid/os/Bundle;
+@@ -4166,13 +4214,13 @@
+     .end local v16    # "sessionId":I
+     .end local v18    # "phoneId":I
+     .local v2, "phoneId":I
+-    :cond_20e
++    :cond_c
+     move/from16 v18, v2
+ 
+     .line 634
+     .end local v2    # "phoneId":I
+     .restart local v18    # "phoneId":I
+-    :goto_210
++    :goto_7
+     new-instance v1, Lcom/google/ims/ImsCallSessionImpl;
+ 
+     const/4 v2, 0x0
+@@ -4208,7 +4256,7 @@
+     .end local v18    # "phoneId":I
+     .local v1, "service":Lcom/google/ims/internal/ServiceProfile;
+     .restart local v2    # "phoneId":I
+-    :cond_224
++    :cond_d
+     move-object/from16 v17, v1
+ 
+     move/from16 v18, v2
+@@ -4236,7 +4284,7 @@
+     .end local v18    # "phoneId":I
+     .restart local v1    # "service":Lcom/google/ims/internal/ServiceProfile;
+     .restart local v2    # "phoneId":I
+-    :cond_233
++    :cond_e
+     move-object/from16 v17, v1
+ 
+     move/from16 v18, v2
+@@ -4277,7 +4325,7 @@
+ .end method
+ 
+ .method public getRegistration(I)Landroid/telephony/ims/aidl/IImsRegistration;
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 301
+@@ -4300,7 +4348,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_22
++    if-eqz v0, :cond_0
+ 
+     .line 304
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mRegistrations:Ljava/util/Map;
+@@ -4318,7 +4366,7 @@
+     return-object v0
+ 
+     .line 306
+-    :cond_22
++    :cond_0
+     new-instance v0, Lcom/google/ims/GoogleImsService$ImsRegistrationImpl;
+ 
+     invoke-direct {v0, p0, p1}, Lcom/google/ims/GoogleImsService$ImsRegistrationImpl;-><init>(Lcom/google/ims/GoogleImsService;I)V
+@@ -4338,7 +4386,7 @@
+ .end method
+ 
+ .method public getSmsFormat(I)Ljava/lang/String;
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+@@ -4360,7 +4408,7 @@
+ 
+     aget-object v0, v0, p1
+ 
+-    if-eqz v0, :cond_3e
++    if-eqz v0, :cond_0
+ 
+     .line 908
+     new-instance v0, Ljava/lang/StringBuilder;
+@@ -4407,7 +4455,7 @@
+     return-object v0
+ 
+     .line 906
+-    :cond_3e
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -4416,7 +4464,7 @@
+ .end method
+ 
+ .method public getTrn(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+-    .registers 6
++    .locals 3
+     .param p1, "srcMsisdn"    # Ljava/lang/String;
+     .param p2, "dstMsisdn"    # Ljava/lang/String;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -4437,7 +4485,7 @@
+     .line 786
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_12
++    if-eqz v0, :cond_0
+ 
+     .line 790
+     invoke-virtual {v0, p1, p2}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->getTrn(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+@@ -4447,7 +4495,7 @@
+     return-object v0
+ 
+     .line 787
+-    :cond_12
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -4456,7 +4504,7 @@
+ .end method
+ 
+ .method public getUtInterface(I)Lcom/android/ims/internal/IImsUt;
+-    .registers 7
++    .locals 5
+     .param p1, "serviceId"    # I
+ 
+     .line 649
+@@ -4499,7 +4547,7 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_32
++    if-eqz v2, :cond_0
+ 
+     .line 655
+     iget-object v2, p0, Lcom/google/ims/GoogleImsService;->mUtList:Ljava/util/Map;
+@@ -4517,7 +4565,7 @@
+     return-object v2
+ 
+     .line 657
+-    :cond_32
++    :cond_0
+     new-instance v2, Lcom/google/ims/ImsUtImpl;
+ 
+     invoke-direct {v2, v1}, Lcom/google/ims/ImsUtImpl;-><init>(I)V
+@@ -4537,7 +4585,7 @@
+ .end method
+ 
+ .method public getVideoCallProvider(I)Lcom/android/ims/internal/IImsVideoCallProvider;
+-    .registers 6
++    .locals 4
+     .param p1, "callId"    # I
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+@@ -4559,7 +4607,7 @@
+ 
+     const-string v1, "GoogleImsService"
+ 
+-    if-eqz v0, :cond_40
++    if-eqz v0, :cond_2
+ 
+     .line 920
+     const/4 v0, 0x0
+@@ -4589,7 +4637,7 @@
+ 
+     .line 925
+     .local v2, "callsession":Lcom/google/ims/ImsCallSessionImpl;
+-    if-eqz v2, :cond_32
++    if-eqz v2, :cond_0
+ 
+     .line 926
+     invoke-virtual {p0, p1}, Lcom/google/ims/GoogleImsService;->getCallSession(I)Lcom/google/ims/ImsCallSessionImpl;
+@@ -4601,14 +4649,14 @@
+     move-result-object v0
+ 
+     .line 929
+-    :cond_32
+-    if-eqz v0, :cond_35
++    :cond_0
++    if-eqz v0, :cond_1
+ 
+     .line 934
+     return-object v0
+ 
+     .line 930
+-    :cond_35
++    :cond_1
+     const-string v3, "getVideoCallProvider: no video provider"
+ 
+     invoke-static {v1, v3}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+@@ -4623,7 +4671,7 @@
+     .line 917
+     .end local v0    # "provider":Lcom/android/ims/internal/IImsVideoCallProvider;
+     .end local v2    # "callsession":Lcom/google/ims/ImsCallSessionImpl;
+-    :cond_40
++    :cond_2
+     const-string v0, "ImsService init fail"
+ 
+     invoke-static {v1, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+@@ -4637,26 +4685,26 @@
+ .end method
+ 
+ .method public hasConferenceHost()Z
+-    .registers 2
++    .locals 1
+ 
+     .line 965
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mConferenceHost:Lcom/google/ims/ImsCallSessionImpl;
+ 
+-    if-eqz v0, :cond_6
++    if-eqz v0, :cond_0
+ 
+     const/4 v0, 0x1
+ 
+-    goto :goto_7
++    goto :goto_0
+ 
+-    :cond_6
++    :cond_0
+     const/4 v0, 0x0
+ 
+-    :goto_7
++    :goto_0
+     return v0
+ .end method
+ 
+ .method public isConnected(III)Z
+-    .registers 7
++    .locals 3
+     .param p1, "serviceId"    # I
+     .param p2, "serviceType"    # I
+     .param p3, "callType"    # I
+@@ -4686,7 +4734,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_17
++    if-eqz v0, :cond_0
+ 
+     .line 268
+     const/4 v0, 0x1
+@@ -4694,7 +4742,7 @@
+     return v0
+ 
+     .line 270
+-    :cond_17
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -4703,7 +4751,7 @@
+ .end method
+ 
+ .method public isInitialMerge()Z
+-    .registers 2
++    .locals 1
+ 
+     .line 973
+     iget-boolean v0, p0, Lcom/google/ims/GoogleImsService;->mIsInitialMerge:Z
+@@ -4712,7 +4760,7 @@
+ .end method
+ 
+ .method public isOpened(I)Z
+-    .registers 5
++    .locals 3
+     .param p1, "serviceId"    # I
+ 
+     .line 282
+@@ -4739,7 +4787,7 @@
+ .end method
+ 
+ .method public isUtEnabled(I)Z
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 939
+@@ -4758,7 +4806,7 @@
+     .local v0, "isUtEnabled":Z
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService;->mUtServiceModule:Lcom/sec/internal/ims/ss/UtServiceModule;
+ 
+-    if-eqz v1, :cond_12
++    if-eqz v1, :cond_0
+ 
+     .line 942
+     invoke-virtual {v1, p1}, Lcom/sec/internal/ims/ss/UtServiceModule;->isUtEnabled(I)Z
+@@ -4766,12 +4814,12 @@
+     move-result v0
+ 
+     .line 945
+-    :cond_12
++    :cond_0
+     return v0
+ .end method
+ 
+ .method public onCallClosed(I)V
+-    .registers 4
++    .locals 2
+     .param p1, "callIdInt"    # I
+ 
+     .line 1190
+@@ -4807,7 +4855,7 @@
+ .end method
+ 
+ .method public onSmsReady(I)V
+-    .registers 6
++    .locals 4
+     .param p1, "phoneId"    # I
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+@@ -4847,7 +4895,7 @@
+ .end method
+ 
+ .method public open(IILandroid/app/PendingIntent;Lcom/android/ims/internal/IImsRegistrationListener;)I
+-    .registers 14
++    .locals 9
+     .param p1, "phoneId"    # I
+     .param p2, "serviceClass"    # I
+     .param p3, "incomingCallIntent"    # Landroid/app/PendingIntent;
+@@ -4893,14 +4941,14 @@
+     invoke-static {v1, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 189
+-    if-eqz p3, :cond_f8
++    if-eqz p3, :cond_3
+ 
+-    if-eqz p4, :cond_f8
++    if-eqz p4, :cond_3
+ 
+     .line 193
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_f2
++    if-eqz v0, :cond_2
+ 
+     .line 197
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -4978,7 +5026,7 @@
+     .line 208
+     const/4 v3, 0x1
+ 
+-    if-ne p2, v3, :cond_dc
++    if-ne p2, v3, :cond_1
+ 
+     .line 209
+     iget-object v3, p0, Lcom/google/ims/GoogleImsService;->mCapabilities:[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+@@ -5012,15 +5060,15 @@
+ 
+     move-result v4
+ 
+-    if-nez v4, :cond_dc
++    if-nez v4, :cond_1
+ 
+     .line 214
+     array-length v4, v3
+ 
+     const/4 v5, 0x0
+ 
+-    :goto_9a
+-    if-ge v5, v4, :cond_dc
++    :goto_0
++    if-ge v5, v4, :cond_1
+ 
+     aget-object v6, v3, v5
+ 
+@@ -5030,13 +5078,13 @@
+ 
+     move-result v7
+ 
+-    if-ne v7, p1, :cond_d9
++    if-ne v7, p1, :cond_0
+ 
+     invoke-virtual {v6}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
+ 
+     move-result v7
+ 
+-    if-eqz v7, :cond_d9
++    if-eqz v7, :cond_0
+ 
+     .line 216
+     new-instance v7, Ljava/lang/StringBuilder;
+@@ -5065,7 +5113,7 @@
+ 
+     move-result v7
+ 
+-    if-eqz v7, :cond_d9
++    if-eqz v7, :cond_0
+ 
+     .line 220
+     iget-object v7, p0, Lcom/google/ims/GoogleImsService;->mOwnUris:Ljava/util/Map;
+@@ -5084,14 +5132,14 @@
+ 
+     .line 214
+     .end local v6    # "reg":Lcom/sec/ims/ImsRegistration;
+-    :cond_d9
++    :cond_0
+     add-int/lit8 v5, v5, 0x1
+ 
+-    goto :goto_9a
++    goto :goto_0
+ 
+     .line 227
+     .end local v3    # "registrationList":[Lcom/sec/ims/ImsRegistration;
+-    :cond_dc
++    :cond_1
+     new-instance v3, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+@@ -5114,7 +5162,7 @@
+     .line 194
+     .end local v0    # "serviceId":I
+     .end local v2    # "newServiceProfile":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_f2
++    :cond_2
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -5122,7 +5170,7 @@
+     throw v0
+ 
+     .line 190
+-    :cond_f8
++    :cond_3
+     new-instance v0, Ljava/lang/NullPointerException;
+ 
+     invoke-direct {v0}, Ljava/lang/NullPointerException;-><init>()V
+@@ -5131,7 +5179,7 @@
+ .end method
+ 
+ .method public prepareComposerDataBundle(Landroid/os/Bundle;)Landroid/os/Bundle;
+-    .registers 5
++    .locals 3
+     .param p1, "cBundle"    # Landroid/os/Bundle;
+ 
+     .line 1571
+@@ -5141,13 +5189,13 @@
+ 
+     .line 1572
+     .local v0, "callExtras":Landroid/os/Bundle;
+-    if-eqz p1, :cond_7b
++    if-eqz p1, :cond_5
+ 
+     invoke-virtual {p1}, Landroid/os/Bundle;->isEmpty()Z
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_7b
++    if-nez v1, :cond_5
+ 
+     .line 1573
+     const-string v1, "importance"
+@@ -5156,7 +5204,7 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_1f
++    if-eqz v2, :cond_0
+ 
+     .line 1574
+     nop
+@@ -5172,14 +5220,14 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putBoolean(Ljava/lang/String;Z)V
+ 
+     .line 1579
+-    :cond_1f
++    :cond_0
+     const-string v1, "image"
+ 
+     invoke-virtual {p1, v1}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_31
++    if-eqz v2, :cond_1
+ 
+     .line 1580
+     nop
+@@ -5195,14 +5243,14 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1585
+-    :cond_31
++    :cond_1
+     const-string/jumbo v1, "subject"
+ 
+     invoke-virtual {p1, v1}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_44
++    if-eqz v2, :cond_2
+ 
+     .line 1586
+     nop
+@@ -5218,14 +5266,14 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1591
+-    :cond_44
++    :cond_2
+     const-string v1, "longitude"
+ 
+     invoke-virtual {p1, v1}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_56
++    if-eqz v2, :cond_3
+ 
+     .line 1592
+     nop
+@@ -5241,14 +5289,14 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1596
+-    :cond_56
++    :cond_3
+     const-string v1, "latitude"
+ 
+     invoke-virtual {p1, v1}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_68
++    if-eqz v2, :cond_4
+ 
+     .line 1597
+     nop
+@@ -5264,14 +5312,14 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1601
+-    :cond_68
++    :cond_4
+     const-string/jumbo v1, "radius"
+ 
+     invoke-virtual {p1, v1}, Landroid/os/Bundle;->containsKey(Ljava/lang/String;)Z
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_7b
++    if-eqz v2, :cond_5
+ 
+     .line 1602
+     nop
+@@ -5287,12 +5335,12 @@
+     invoke-virtual {v0, v2, v1}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1607
+-    :cond_7b
++    :cond_5
+     return-object v0
+ .end method
+ 
+ .method public putConferenceState(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+-    .registers 8
++    .locals 3
+     .param p1, "callId"    # I
+     .param p2, "user"    # Ljava/lang/String;
+     .param p3, "endPoint"    # Ljava/lang/String;
+@@ -5333,7 +5381,7 @@
+ .end method
+ 
+ .method public putConferenceStateList(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+-    .registers 9
++    .locals 3
+     .param p1, "userId"    # I
+     .param p2, "callId"    # I
+     .param p3, "user"    # Ljava/lang/String;
+@@ -5380,7 +5428,7 @@
+ .end method
+ 
+ .method public removeConferenceState(I)V
+-    .registers 4
++    .locals 2
+     .param p1, "callId"    # I
+ 
+     .line 1004
+@@ -5397,7 +5445,7 @@
+ .end method
+ 
+ .method public sendPublishDialog(ILcom/android/internal/telephony/PublishDialog;)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "publishDialog"    # Lcom/android/internal/telephony/PublishDialog;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -5418,7 +5466,7 @@
+     .line 796
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_12
++    if-eqz v0, :cond_0
+ 
+     .line 800
+     invoke-virtual {v0, p1, p2}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->sendPublishDialog(ILcom/android/internal/telephony/PublishDialog;)V
+@@ -5427,7 +5475,7 @@
+     return-void
+ 
+     .line 797
+-    :cond_12
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -5436,7 +5484,7 @@
+ .end method
+ 
+ .method public sendRpSmma(ILjava/lang/String;)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "smsc"    # Ljava/lang/String;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -5484,7 +5532,7 @@
+ 
+     aget-object v1, v0, p1
+ 
+-    if-eqz v1, :cond_35
++    if-eqz v1, :cond_0
+ 
+     .line 898
+     aget-object v0, v0, p1
+@@ -5495,7 +5543,7 @@
+     return-void
+ 
+     .line 896
+-    :cond_35
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -5504,7 +5552,7 @@
+ .end method
+ 
+ .method public sendSms(IIILjava/lang/String;Ljava/lang/String;Z[B)V
+-    .registers 22
++    .locals 14
+     .param p1, "phoneId"    # I
+     .param p2, "token"    # I
+     .param p3, "messageRef"    # I
+@@ -5595,7 +5643,7 @@
+ 
+     aget-object v2, v0, v7
+ 
+-    if-eqz v2, :cond_6c
++    if-eqz v2, :cond_0
+ 
+     .line 829
+     aget-object v0, v0, v7
+@@ -5618,7 +5666,7 @@
+     return-void
+ 
+     .line 825
+-    :cond_6c
++    :cond_0
+     const-string v0, "mSmsImpl is null"
+ 
+     invoke-static {v1, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+@@ -5632,14 +5680,14 @@
+ .end method
+ 
+ .method public setConferenceHost(Lcom/google/ims/ImsCallSessionImpl;)V
+-    .registers 3
++    .locals 1
+     .param p1, "hostSession"    # Lcom/google/ims/ImsCallSessionImpl;
+ 
+     .line 953
+     iput-object p1, p0, Lcom/google/ims/GoogleImsService;->mConferenceHost:Lcom/google/ims/ImsCallSessionImpl;
+ 
+     .line 955
+-    if-nez p1, :cond_9
++    if-nez p1, :cond_0
+ 
+     .line 956
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mImsConferenceState:Ljava/util/Map;
+@@ -5647,12 +5695,12 @@
+     invoke-interface {v0}, Ljava/util/Map;->clear()V
+ 
+     .line 958
+-    :cond_9
++    :cond_0
+     return-void
+ .end method
+ 
+ .method public setInitialMerge(Z)V
+-    .registers 2
++    .locals 0
+     .param p1, "initialMerge"    # Z
+ 
+     .line 969
+@@ -5663,7 +5711,7 @@
+ .end method
+ 
+ .method public setRegistrationListener(ILcom/android/ims/internal/IImsRegistrationListener;)V
+-    .registers 9
++    .locals 6
+     .param p1, "serviceId"    # I
+     .param p2, "listener"    # Lcom/android/ims/internal/IImsRegistrationListener;
+ 
+@@ -5687,7 +5735,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_4e
++    if-eqz v0, :cond_0
+ 
+     .line 293
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -5716,7 +5764,7 @@
+ 
+     new-array v2, v1, [I
+ 
+-    fill-array-data v2, :array_50
++    fill-array-data v2, :array_0
+ 
+     const/4 v3, 0x0
+ 
+@@ -5749,12 +5797,12 @@
+ 
+     .line 297
+     .end local v0    # "service":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_4e
++    :cond_0
+     return-void
+ 
+     nop
+ 
+-    :array_50
++    :array_0
+     .array-data 4
+         -0x1
+         -0x1
+@@ -5766,7 +5814,7 @@
+ .end method
+ 
+ .method public setRetryCount(III)V
+-    .registers 7
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "token"    # I
+     .param p3, "retryCount"    # I
+@@ -5821,7 +5869,7 @@
+ 
+     aget-object v2, v0, p1
+ 
+-    if-eqz v2, :cond_3d
++    if-eqz v2, :cond_0
+ 
+     .line 840
+     aget-object v0, v0, p1
+@@ -5832,7 +5880,7 @@
+     return-void
+ 
+     .line 837
+-    :cond_3d
++    :cond_0
+     const-string v0, "mSmsImpl is null"
+ 
+     invoke-static {v1, v0}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+@@ -5846,7 +5894,7 @@
+ .end method
+ 
+ .method public setSecImsMmTelEventListener(ILcom/android/ims/internal/ISecImsMmTelEventListener;)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "listener"    # Lcom/android/ims/internal/ISecImsMmTelEventListener;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -5878,7 +5926,7 @@
+ .end method
+ 
+ .method public setServiceUrn(Ljava/lang/String;)V
+-    .registers 2
++    .locals 0
+     .param p1, "mServiceUrn"    # Ljava/lang/String;
+ 
+     .line 981
+@@ -5889,7 +5937,7 @@
+ .end method
+ 
+ .method public setSmsListener(ILandroid/telephony/ims/aidl/IImsSmsListener;)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "listener"    # Landroid/telephony/ims/aidl/IImsSmsListener;
+     .annotation system Ldalvik/annotation/Throws;
+@@ -5943,7 +5991,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_44
++    if-eqz v0, :cond_0
+ 
+     .line 877
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mSmsListenerList:Ljava/util/Map;
+@@ -5960,10 +6008,10 @@
+ 
+     iput-object v0, p0, Lcom/google/ims/GoogleImsService;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+-    goto :goto_51
++    goto :goto_0
+ 
+     .line 879
+-    :cond_44
++    :cond_0
+     iput-object p2, p0, Lcom/google/ims/GoogleImsService;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+     .line 880
+@@ -5978,12 +6026,12 @@
+     invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 882
+-    :goto_51
++    :goto_0
+     return-void
+ .end method
+ 
+ .method public setTtyMode(II)V
+-    .registers 6
++    .locals 3
+     .param p1, "phoneId"    # I
+     .param p2, "mode"    # I
+     .annotation system Ldalvik/annotation/Throws;
+@@ -6004,7 +6052,7 @@
+     .line 726
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_12
++    if-eqz v0, :cond_0
+ 
+     .line 730
+     invoke-virtual {v0, p1, p2}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->setTtyMode(II)V
+@@ -6013,7 +6061,7 @@
+     return-void
+ 
+     .line 727
+-    :cond_12
++    :cond_0
+     const-string v0, "GoogleImsService"
+ 
+     const-string v1, "ImsService init fail"
+@@ -6029,7 +6077,7 @@
+ .end method
+ 
+ .method public setUiTTYMode(IILandroid/os/Message;)V
+-    .registers 8
++    .locals 4
+     .param p1, "serviceId"    # I
+     .param p2, "uiTtyMode"    # I
+     .param p3, "onComplete"    # Landroid/os/Message;
+@@ -6071,7 +6119,7 @@
+     .local v1, "phoneId":I
+     iget-object v2, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v2, :cond_22
++    if-eqz v2, :cond_0
+ 
+     .line 718
+     invoke-virtual {v2, v1, p2, p3}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->setUiTTYMode(IILandroid/os/Message;)V
+@@ -6080,7 +6128,7 @@
+     return-void
+ 
+     .line 715
+-    :cond_22
++    :cond_0
+     const-string v2, "GoogleImsService"
+ 
+     const-string v3, "ImsService init fail"
+@@ -6096,7 +6144,7 @@
+ .end method
+ 
+ .method public startLocalRingBackTone(III)I
+-    .registers 7
++    .locals 3
+     .param p1, "streamType"    # I
+     .param p2, "volume"    # I
+     .param p3, "toneType"    # I
+@@ -6118,7 +6166,7 @@
+     .line 768
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_13
++    if-eqz v0, :cond_0
+ 
+     .line 771
+     invoke-virtual {v0, p1, p2, p3}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->startLocalRingBackTone(III)I
+@@ -6128,7 +6176,7 @@
+     return v0
+ 
+     .line 769
+-    :cond_13
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -6137,7 +6185,7 @@
+ .end method
+ 
+ .method public stopLocalRingBackTone()I
+-    .registers 4
++    .locals 3
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+             Landroid/os/RemoteException;
+@@ -6156,7 +6204,7 @@
+     .line 777
+     iget-object v0, p0, Lcom/google/ims/GoogleImsService;->mVolteServiceModule:Lcom/sec/internal/ims/volte2/VolteServiceModule;
+ 
+-    if-eqz v0, :cond_13
++    if-eqz v0, :cond_0
+ 
+     .line 780
+     invoke-virtual {v0}, Lcom/sec/internal/ims/volte2/VolteServiceModule;->stopLocalRingBackTone()I
+@@ -6166,7 +6214,7 @@
+     return v0
+ 
+     .line 778
+-    :cond_13
++    :cond_0
+     new-instance v0, Landroid/os/RemoteException;
+ 
+     invoke-direct {v0}, Landroid/os/RemoteException;-><init>()V
+@@ -6175,7 +6223,7 @@
+ .end method
+ 
+ .method public triggerAutoConfigurationForApp(I)V
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+     .annotation system Ldalvik/annotation/Throws;
+         value = {
+@@ -6204,7 +6252,7 @@
+ .end method
+ 
+ .method public turnOffIms(I)V
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 683
+@@ -6221,7 +6269,7 @@
+ .end method
+ 
+ .method public turnOnIms(I)V
+-    .registers 5
++    .locals 3
+     .param p1, "phoneId"    # I
+ 
+     .line 678
+@@ -6238,7 +6286,7 @@
+ .end method
+ 
+ .method public updateCapabilities(ILandroid/telephony/ims/feature/ImsFeature$Capabilities;)V
+-    .registers 5
++    .locals 2
+     .param p1, "phoneId"    # I
+     .param p2, "capabilities"    # Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+ 
+@@ -6251,7 +6299,7 @@
+ 
+     move-result v0
+ 
+-    if-nez v0, :cond_2d
++    if-nez v0, :cond_0
+ 
+     .line 1162
+     new-instance v0, Ljava/lang/StringBuilder;
+@@ -6287,12 +6335,12 @@
+     invoke-virtual {v0, p1}, Lcom/google/ims/GoogleImsService$ImsNotifier;->notifyFeatureCapableChanged(I)V
+ 
+     .line 1166
+-    :cond_2d
++    :cond_0
+     return-void
+ .end method
+ 
+ .method public updateCapabilities(I[I[Z)V
+-    .registers 9
++    .locals 5
+     .param p1, "phoneId"    # I
+     .param p2, "capabilities"    # [I
+     .param p3, "capables"    # [Z
+@@ -6305,10 +6353,10 @@
+     const/4 v1, 0x0
+ 
+     .local v1, "capability":I
+-    :goto_2
++    :goto_0
+     array-length v2, p2
+ 
+-    if-ge v1, v2, :cond_2e
++    if-ge v1, v2, :cond_2
+ 
+     .line 1172
+     aget-boolean v2, p3, v1
+@@ -6323,12 +6371,12 @@
+ 
+     move-result v3
+ 
+-    if-eq v2, v3, :cond_2b
++    if-eq v2, v3, :cond_1
+ 
+     .line 1173
+     aget-boolean v2, p3, v1
+ 
+-    if-eqz v2, :cond_21
++    if-eqz v2, :cond_0
+ 
+     .line 1174
+     iget-object v2, p0, Lcom/google/ims/GoogleImsService;->mCapabilities:[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+@@ -6339,10 +6387,10 @@
+ 
+     invoke-virtual {v2, v3}, Landroid/telephony/ims/feature/ImsFeature$Capabilities;->addCapabilities(I)V
+ 
+-    goto :goto_2a
++    goto :goto_1
+ 
+     .line 1176
+-    :cond_21
++    :cond_0
+     iget-object v2, p0, Lcom/google/ims/GoogleImsService;->mCapabilities:[Landroid/telephony/ims/feature/ImsFeature$Capabilities;
+ 
+     aget-object v2, v2, p1
+@@ -6352,19 +6400,19 @@
+     invoke-virtual {v2, v3}, Landroid/telephony/ims/feature/ImsFeature$Capabilities;->removeCapabilities(I)V
+ 
+     .line 1179
+-    :goto_2a
++    :goto_1
+     const/4 v0, 0x1
+ 
+     .line 1171
+-    :cond_2b
++    :cond_1
+     add-int/lit8 v1, v1, 0x1
+ 
+-    goto :goto_2
++    goto :goto_0
+ 
+     .line 1183
+     .end local v1    # "capability":I
+-    :cond_2e
+-    if-eqz v0, :cond_4f
++    :cond_2
++    if-eqz v0, :cond_3
+ 
+     .line 1184
+     new-instance v1, Ljava/lang/StringBuilder;
+@@ -6395,12 +6443,12 @@
+     invoke-virtual {v1, p1}, Lcom/google/ims/GoogleImsService$ImsNotifier;->notifyFeatureCapableChanged(I)V
+ 
+     .line 1187
+-    :cond_4f
++    :cond_3
+     return-void
+ .end method
+ 
+ .method public updateParticipant(ILjava/lang/String;)V
+-    .registers 9
++    .locals 6
+     .param p1, "callId"    # I
+     .param p2, "status"    # Ljava/lang/String;
+ 
+@@ -6424,7 +6472,7 @@
+ .end method
+ 
+ .method public updateParticipant(ILjava/lang/String;Ljava/lang/String;)V
+-    .registers 10
++    .locals 6
+     .param p1, "callId"    # I
+     .param p2, "status"    # Ljava/lang/String;
+     .param p3, "disconnectCause"    # Ljava/lang/String;
+@@ -6449,7 +6497,7 @@
+ .end method
+ 
+ .method public updateParticipant(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+-    .registers 9
++    .locals 3
+     .param p1, "callId"    # I
+     .param p2, "user"    # Ljava/lang/String;
+     .param p3, "endPoint"    # Ljava/lang/String;
+@@ -6471,14 +6519,14 @@
+ 
+     .line 1093
+     .local v0, "confState":Landroid/os/Bundle;
+-    if-eqz v0, :cond_4f
++    if-eqz v0, :cond_4
+ 
+     .line 1094
+     invoke-static {p2}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_1a
++    if-nez v1, :cond_0
+ 
+     .line 1095
+     const-string/jumbo v1, "user"
+@@ -6486,12 +6534,12 @@
+     invoke-virtual {v0, v1, p2}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1098
+-    :cond_1a
++    :cond_0
+     invoke-static {p3}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_25
++    if-nez v1, :cond_1
+ 
+     .line 1099
+     const-string v1, "endpoint"
+@@ -6499,12 +6547,12 @@
+     invoke-virtual {v0, v1, p3}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1102
+-    :cond_25
++    :cond_1
+     invoke-static {p4}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_31
++    if-nez v1, :cond_2
+ 
+     .line 1103
+     const-string/jumbo v1, "status"
+@@ -6512,12 +6560,12 @@
+     invoke-virtual {v0, v1, p4}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1106
+-    :cond_31
++    :cond_2
+     invoke-static {p5}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
+ 
+     move-result v1
+ 
+-    if-nez v1, :cond_46
++    if-nez v1, :cond_3
+ 
+     const-string v1, "disconnectCause"
+ 
+@@ -6529,13 +6577,13 @@
+ 
+     move-result v2
+ 
+-    if-eqz v2, :cond_46
++    if-eqz v2, :cond_3
+ 
+     .line 1107
+     invoke-virtual {v0, v1, p5}, Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1110
+-    :cond_46
++    :cond_3
+     iget-object v1, p0, Lcom/google/ims/GoogleImsService;->mImsConferenceState:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -6545,12 +6593,12 @@
+     invoke-interface {v1, v2, v0}, Ljava/util/Map;->replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 1112
+-    :cond_4f
++    :cond_4
+     return-void
+ .end method
+ 
+ .method public updateSecConferenceInfo(Landroid/telephony/ims/ImsCallProfile;)V
+-    .registers 15
++    .locals 13
+     .param p1, "callProfile"    # Landroid/telephony/ims/ImsCallProfile;
+ 
+     .line 1018
+@@ -6580,12 +6628,12 @@
+ 
+     move-result-object v3
+ 
+-    :goto_18
++    :goto_0
+     invoke-interface {v3}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v4
+ 
+-    if-eqz v4, :cond_ce
++    if-eqz v4, :cond_5
+ 
+     invoke-interface {v3}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -6615,7 +6663,7 @@
+ 
+     .line 1026
+     .local v7, "oldValue":Landroid/os/Bundle;
+-    if-eqz v1, :cond_57
++    if-eqz v1, :cond_1
+ 
+     .line 1027
+     invoke-virtual {v1}, Landroid/os/Bundle;->keySet()Ljava/util/Set;
+@@ -6626,12 +6674,12 @@
+ 
+     move-result-object v8
+ 
+-    :goto_3b
++    :goto_1
+     invoke-interface {v8}, Ljava/util/Iterator;->hasNext()Z
+ 
+     move-result v9
+ 
+-    if-eqz v9, :cond_57
++    if-eqz v9, :cond_1
+ 
+     invoke-interface {v8}, Ljava/util/Iterator;->next()Ljava/lang/Object;
+ 
+@@ -6649,7 +6697,7 @@
+ 
+     move-result v10
+ 
+-    if-eqz v10, :cond_56
++    if-eqz v10, :cond_0
+ 
+     .line 1029
+     invoke-virtual {v1, v9}, Landroid/os/Bundle;->getBundle(Ljava/lang/String;)Landroid/os/Bundle;
+@@ -6657,19 +6705,19 @@
+     move-result-object v7
+ 
+     .line 1030
+-    goto :goto_57
++    goto :goto_2
+ 
+     .line 1032
+     .end local v9    # "oldCallId":Ljava/lang/String;
+-    :cond_56
+-    goto :goto_3b
++    :cond_0
++    goto :goto_1
+ 
+     .line 1035
+-    :cond_57
+-    :goto_57
++    :cond_1
++    :goto_2
+     const-string v8, "GoogleImsService"
+ 
+-    if-eqz v7, :cond_7a
++    if-eqz v7, :cond_2
+ 
+     .line 1036
+     new-instance v9, Ljava/lang/StringBuilder;
+@@ -6698,10 +6746,10 @@
+ 
+     invoke-virtual {v0, v8, v7}, Landroid/os/Bundle;->putBundle(Ljava/lang/String;Landroid/os/Bundle;)V
+ 
+-    goto :goto_cc
++    goto :goto_3
+ 
+     .line 1041
+-    :cond_7a
++    :cond_2
+     new-instance v9, Ljava/lang/StringBuilder;
+ 
+     invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
+@@ -6737,7 +6785,7 @@
+ 
+     .line 1044
+     .local v10, "origCallId":I
+-    if-lez v10, :cond_b6
++    if-lez v10, :cond_3
+ 
+     .line 1045
+     new-instance v11, Ljava/lang/StringBuilder;
+@@ -6762,8 +6810,8 @@
+     move-result-object v9
+ 
+     .line 1049
+-    :cond_b6
+-    if-eqz v9, :cond_cc
++    :cond_3
++    if-eqz v9, :cond_4
+ 
+     .line 1050
+     invoke-virtual {v9}, Lcom/google/ims/ImsCallSessionImpl;->getCallProfile()Landroid/telephony/ims/ImsCallProfile;
+@@ -6795,12 +6843,12 @@
+     .end local v8    # "profile":Landroid/telephony/ims/ImsCallProfile;
+     .end local v9    # "session":Lcom/google/ims/ImsCallSessionImpl;
+     .end local v10    # "origCallId":I
+-    :cond_cc
+-    :goto_cc
+-    goto/16 :goto_18
++    :cond_4
++    :goto_3
++    goto/16 :goto_0
+ 
+     .line 1058
+-    :cond_ce
++    :cond_5
+     iget-object v3, p1, Landroid/telephony/ims/ImsCallProfile;->mCallExtras:Landroid/os/Bundle;
+ 
+     invoke-virtual {v3, v2, v0}, Landroid/os/Bundle;->putBundle(Ljava/lang/String;Landroid/os/Bundle;)V
+diff -urN old/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali new/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali
+--- a/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali	2026-03-23 21:27:58.092429507 +0530
++++ b/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali	2026-03-23 21:27:58.093248980 +0530
+@@ -20,7 +20,7 @@
+ 
+ # direct methods
+ .method public constructor <init>()V
+-    .registers 2
++    .locals 1
+ 
+     .line 22
+     invoke-direct {p0}, Landroid/telephony/ims/compat/ImsService;-><init>()V
+@@ -44,7 +44,7 @@
+ 
+ # virtual methods
+ .method public onBind(Landroid/content/Intent;)Landroid/os/IBinder;
+-    .registers 4
++    .locals 2
+     .param p1, "intent"    # Landroid/content/Intent;
+ 
+     .line 18
+@@ -63,7 +63,7 @@
+ .end method
+ 
+ .method public onCreateEmergencyMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+-    .registers 3
++    .locals 1
+     .param p1, "slotId"    # I
+ 
+     invoke-virtual {p0, p1}, Lcom/sec/internal/google/GoogleImsServiceAdapter;->onCreateMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+@@ -74,7 +74,7 @@
+ .end method
+ 
+ .method public onCreateMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+-    .registers 6
++    .locals 4
+     .param p1, "slotId"    # I
+ 
+     iget-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+@@ -87,7 +87,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_19
++    if-eqz v0, :cond_0
+ 
+     .line 30
+     iget-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+@@ -104,7 +104,7 @@
+ 
+     return-object v0
+ 
+-    :cond_19
++    :cond_0
+     new-instance v0, Lcom/sec/internal/google/ImsMmtelFeature;
+ 
+     invoke-virtual {p0}, Lcom/sec/internal/google/GoogleImsServiceAdapter;->getApplicationContext()Landroid/content/Context;
+diff -urN old/smali/com/sec/internal/google/ImsMmtelFeature.smali new/smali/com/sec/internal/google/ImsMmtelFeature.smali
+--- a/smali/com/sec/internal/google/ImsMmtelFeature.smali	2026-03-23 21:27:58.096234470 +0530
++++ b/smali/com/sec/internal/google/ImsMmtelFeature.smali	2026-03-23 21:27:58.097173314 +0530
+@@ -17,7 +17,7 @@
+ 
+ # direct methods
+ .method public constructor <init>(Lcom/google/ims/GoogleImsService;I)V
+-    .registers 4
++    .locals 1
+     .param p1, "inMainSvc"    # Lcom/google/ims/GoogleImsService;
+     .param p2, "inPhoneId"    # I
+ 
+@@ -50,7 +50,7 @@
+ 
+ # virtual methods
+ .method public addRegistrationListener(Lcom/android/ims/internal/IImsRegistrationListener;)V
+-    .registers 8
++    .locals 6
+     .param p1, "listener"    # Lcom/android/ims/internal/IImsRegistrationListener;
+ 
+     const-string v2, "ImsMmTelFeature"
+@@ -63,7 +63,7 @@
+ 
+     new-array v3, v2, [I
+ 
+-    fill-array-data v3, :array_28
++    fill-array-data v3, :array_0
+ 
+     const/4 v4, 0x0
+ 
+@@ -88,7 +88,7 @@
+ 
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_27
++    if-eq v0, v1, :cond_0
+ 
+     .line 136
+     iget-object v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -96,10 +96,10 @@
+     invoke-virtual {v1, v0, p1}, Lcom/google/ims/GoogleImsService;->setRegistrationListener(ILcom/android/ims/internal/IImsRegistrationListener;)V
+ 
+     .line 138
+-    :cond_27
++    :cond_0
+     return-void
+ 
+-    :array_28
++    :array_0
+     .array-data 4
+         -0x1
+         -0x1
+@@ -111,7 +111,7 @@
+ .end method
+ 
+ .method public createCallProfile(III)Landroid/telephony/ims/ImsCallProfile;
+-    .registers 11
++    .locals 7
+     .param p1, "sessionId"    # I
+     .param p2, "callSessionType"    # I
+     .param p3, "callType"    # I
+@@ -119,27 +119,27 @@
+     .line 177
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+-    if-ne p1, v0, :cond_2e
++    if-ne p1, v0, :cond_1
+ 
+     .line 182
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_2c
++    if-eq v0, v1, :cond_0
+ 
+     .line 184
+-    :try_start_7
++    :try_start_0
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+ 
+     invoke-virtual {v0, p1, p2, p3}, Lcom/google/ims/GoogleImsService;->createCallProfile(III)Landroid/telephony/ims/ImsCallProfile;
+ 
+     move-result-object v0
+-    :try_end_d
+-    .catch Landroid/os/RemoteException; {:try_start_7 .. :try_end_d} :catch_e
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     return-object v0
+ 
+     .line 185
+-    :catch_e
++    :catch_0
+     move-exception v0
+ 
+     .line 186
+@@ -163,8 +163,8 @@
+ 
+     const/4 v4, 0x0
+ 
+-    :goto_1e
+-    if-ge v4, v2, :cond_2c
++    :goto_0
++    if-ge v4, v2, :cond_0
+ 
+     aget-object v5, v1, v4
+ 
+@@ -180,18 +180,18 @@
+     .end local v5    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v4, v4, 0x1
+ 
+-    goto :goto_1e
++    goto :goto_0
+ 
+     .line 193
+     .end local v0    # "re":Landroid/os/RemoteException;
+     .end local v1    # "exMsg":[Ljava/lang/StackTraceElement;
+-    :cond_2c
++    :cond_0
+     const/4 v0, 0x0
+ 
+     return-object v0
+ 
+     .line 178
+-    :cond_2e
++    :cond_1
+     new-instance v0, Ljava/lang/RuntimeException;
+ 
+     new-instance v1, Ljava/lang/StringBuilder;
+@@ -262,7 +262,7 @@
+ .end method
+ 
+ .method public createCallSession(ILandroid/telephony/ims/ImsCallProfile;Lcom/android/ims/internal/IImsCallSessionListener;)Lcom/android/ims/internal/IImsCallSession;
+-    .registers 11
++    .locals 7
+     .param p1, "sessionId"    # I
+     .param p2, "profile"    # Landroid/telephony/ims/ImsCallProfile;
+     .param p3, "listener"    # Lcom/android/ims/internal/IImsCallSessionListener;
+@@ -270,27 +270,27 @@
+     .line 206
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+-    if-ne p1, v0, :cond_2e
++    if-ne p1, v0, :cond_1
+ 
+     .line 211
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_2c
++    if-eq v0, v1, :cond_0
+ 
+     .line 213
+-    :try_start_7
++    :try_start_0
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+ 
+     invoke-virtual {v0, p1, p2, p3}, Lcom/google/ims/GoogleImsService;->createCallSession(ILandroid/telephony/ims/ImsCallProfile;Lcom/android/ims/internal/IImsCallSessionListener;)Lcom/android/ims/internal/IImsCallSession;
+ 
+     move-result-object v0
+-    :try_end_d
+-    .catch Landroid/os/RemoteException; {:try_start_7 .. :try_end_d} :catch_e
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     return-object v0
+ 
+     .line 214
+-    :catch_e
++    :catch_0
+     move-exception v0
+ 
+     .line 215
+@@ -314,8 +314,8 @@
+ 
+     const/4 v4, 0x0
+ 
+-    :goto_1e
+-    if-ge v4, v2, :cond_2c
++    :goto_0
++    if-ge v4, v2, :cond_0
+ 
+     aget-object v5, v1, v4
+ 
+@@ -331,18 +331,18 @@
+     .end local v5    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v4, v4, 0x1
+ 
+-    goto :goto_1e
++    goto :goto_0
+ 
+     .line 222
+     .end local v0    # "re":Landroid/os/RemoteException;
+     .end local v1    # "exMsg":[Ljava/lang/StackTraceElement;
+-    :cond_2c
++    :cond_0
+     const/4 v0, 0x0
+ 
+     return-object v0
+ 
+     .line 207
+-    :cond_2e
++    :cond_1
+     new-instance v0, Ljava/lang/RuntimeException;
+ 
+     new-instance v1, Ljava/lang/StringBuilder;
+@@ -413,18 +413,18 @@
+ .end method
+ 
+ .method public endSession(I)V
+-    .registers 5
++    .locals 3
+     .param p1, "sessionId"    # I
+ 
+     .line 80
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+-    if-ne p1, v0, :cond_f
++    if-ne p1, v0, :cond_1
+ 
+     .line 85
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_e
++    if-eq v0, v1, :cond_0
+ 
+     .line 86
+     iget-object v2, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -435,11 +435,11 @@
+     iput v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+     .line 89
+-    :cond_e
++    :cond_0
+     return-void
+ 
+     .line 81
+-    :cond_f
++    :cond_1
+     new-instance v0, Ljava/lang/RuntimeException;
+ 
+     new-instance v1, Ljava/lang/StringBuilder;
+@@ -510,7 +510,7 @@
+ .end method
+ 
+ .method public getConfigInterface()Lcom/android/ims/internal/IImsConfig;
+-    .registers 3
++    .locals 2
+ 
+     .line 264
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -525,7 +525,7 @@
+ .end method
+ 
+ .method public getEcbmInterface()Landroid/telephony/ims/stub/ImsEcbmImplBase;
+-    .registers 3
++    .locals 2
+ 
+     const-string v0, "ImsMmTelFeature"
+ 
+@@ -541,7 +541,7 @@
+ .end method
+ 
+ .method public getFeatureState()I
+-    .registers 3
++    .locals 2
+ 
+     const-string v0, "ImsMmTelFeature"
+ 
+@@ -555,7 +555,7 @@
+ .end method
+ 
+ .method public getMultiEndpointInterface()Landroid/telephony/ims/stub/ImsMultiEndpointImplBase;
+-    .registers 3
++    .locals 2
+ 
+     const-string v0, "ImsMmTelFeature"
+ 
+@@ -571,36 +571,36 @@
+ .end method
+ 
+ .method public getPendingCallSession(ILjava/lang/String;)Lcom/android/ims/internal/IImsCallSession;
+-    .registers 11
++    .locals 8
+     .param p1, "sessionId"    # I
+     .param p2, "callId"    # Ljava/lang/String;
+ 
+     .line 232
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+-    if-ne p1, v0, :cond_2f
++    if-ne p1, v0, :cond_2
+ 
+     .line 237
+     const/4 v1, -0x1
+ 
+     const/4 v2, 0x0
+ 
+-    if-eq v0, v1, :cond_2e
++    if-eq v0, v1, :cond_1
+ 
+     .line 239
+-    :try_start_8
++    :try_start_0
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+ 
+     invoke-virtual {v0, p1, p2}, Lcom/google/ims/GoogleImsService;->getPendingCallSession(ILjava/lang/String;)Lcom/android/ims/internal/IImsCallSession;
+ 
+     move-result-object v0
+-    :try_end_e
+-    .catch Landroid/os/RemoteException; {:try_start_8 .. :try_end_e} :catch_f
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     return-object v0
+ 
+     .line 240
+-    :catch_f
++    :catch_0
+     move-exception v0
+ 
+     .line 241
+@@ -624,8 +624,8 @@
+ 
+     const/4 v5, 0x0
+ 
+-    :goto_1f
+-    if-ge v5, v3, :cond_2d
++    :goto_0
++    if-ge v5, v3, :cond_0
+ 
+     aget-object v6, v1, v5
+ 
+@@ -641,20 +641,20 @@
+     .end local v6    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v5, v5, 0x1
+ 
+-    goto :goto_1f
++    goto :goto_0
+ 
+     .line 246
+-    :cond_2d
++    :cond_0
+     return-object v2
+ 
+     .line 249
+     .end local v0    # "re":Landroid/os/RemoteException;
+     .end local v1    # "exMsg":[Ljava/lang/StackTraceElement;
+-    :cond_2e
++    :cond_1
+     return-object v2
+ 
+     .line 233
+-    :cond_2f
++    :cond_2
+     new-instance v0, Ljava/lang/RuntimeException;
+ 
+     new-instance v1, Ljava/lang/StringBuilder;
+@@ -725,7 +725,7 @@
+ .end method
+ 
+ .method public getUtInterface()Landroid/telephony/ims/stub/ImsUtImplBase;
+-    .registers 3
++    .locals 2
+ 
+     const-string v0, "ImsMmTelFeature"
+ 
+@@ -741,7 +741,7 @@
+ .end method
+ 
+ .method public isConnected(II)Z
+-    .registers 11
++    .locals 8
+     .param p1, "callSessionType"    # I
+     .param p2, "callType"    # I
+ 
+@@ -754,13 +754,13 @@
+     invoke-virtual {v0, v1, p1, p2}, Lcom/google/ims/GoogleImsService;->isConnected(III)Z
+ 
+     move-result v0
+-    :try_end_8
+-    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_8} :catch_9
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     return v0
+ 
+     .line 108
+-    :catch_9
++    :catch_0
+     move-exception v0
+ 
+     .line 109
+@@ -786,8 +786,8 @@
+ 
+     move v5, v4
+ 
+-    :goto_1a
+-    if-ge v5, v2, :cond_28
++    :goto_0
++    if-ge v5, v2, :cond_0
+ 
+     aget-object v6, v1, v5
+ 
+@@ -803,22 +803,22 @@
+     .end local v6    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v5, v5, 0x1
+ 
+-    goto :goto_1a
++    goto :goto_0
+ 
+     .line 114
+-    :cond_28
++    :cond_0
+     return v4
+ .end method
+ 
+ .method public isOpened()Z
+-    .registers 3
++    .locals 2
+ 
+     .line 124
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_c
++    if-eq v0, v1, :cond_0
+ 
+     .line 125
+     iget-object v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -830,21 +830,21 @@
+     return v0
+ 
+     .line 127
+-    :cond_c
++    :cond_0
+     const/4 v0, 0x0
+ 
+     return v0
+ .end method
+ 
+ .method public onFeatureRemoved()V
+-    .registers 4
++    .locals 3
+ 
+     .line 318
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_c
++    if-eq v0, v1, :cond_0
+ 
+     .line 319
+     iget-object v2, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -855,12 +855,12 @@
+     iput v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+     .line 322
+-    :cond_c
++    :cond_0
+     return-void
+ .end method
+ 
+ .method public removeRegistrationListener(Lcom/android/ims/internal/IImsRegistrationListener;)V
+-    .registers 4
++    .locals 2
+     .param p1, "listener"    # Lcom/android/ims/internal/IImsRegistrationListener;
+ 
+     .line 151
+@@ -868,7 +868,7 @@
+ 
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_b
++    if-eq v0, v1, :cond_0
+ 
+     .line 152
+     iget-object v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -878,12 +878,12 @@
+     invoke-virtual {v1, v0, p1}, Lcom/google/ims/GoogleImsService;->setRegistrationListener(ILcom/android/ims/internal/IImsRegistrationListener;)V
+ 
+     .line 155
+-    :cond_b
++    :cond_0
+     return-void
+ .end method
+ 
+ .method public setUiTTYMode(ILandroid/os/Message;)V
+-    .registers 10
++    .locals 7
+     .param p1, "uiTtyMode"    # I
+     .param p2, "onComplete"    # Landroid/os/Message;
+ 
+@@ -892,21 +892,21 @@
+ 
+     const/4 v1, -0x1
+ 
+-    if-eq v0, v1, :cond_29
++    if-eq v0, v1, :cond_0
+ 
+     .line 296
+-    :try_start_5
++    :try_start_0
+     iget-object v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+ 
+     invoke-virtual {v1, v0, p1, p2}, Lcom/google/ims/GoogleImsService;->setUiTTYMode(IILandroid/os/Message;)V
+-    :try_end_a
+-    .catch Landroid/os/RemoteException; {:try_start_5 .. :try_end_a} :catch_b
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 303
+-    goto :goto_29
++    goto :goto_1
+ 
+     .line 297
+-    :catch_b
++    :catch_0
+     move-exception v0
+ 
+     .line 298
+@@ -930,8 +930,8 @@
+ 
+     const/4 v4, 0x0
+ 
+-    :goto_1b
+-    if-ge v4, v2, :cond_29
++    :goto_0
++    if-ge v4, v2, :cond_0
+ 
+     aget-object v5, v1, v4
+ 
+@@ -947,18 +947,18 @@
+     .end local v5    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v4, v4, 0x1
+ 
+-    goto :goto_1b
++    goto :goto_0
+ 
+     .line 305
+     .end local v0    # "re":Landroid/os/RemoteException;
+     .end local v1    # "exMsg":[Ljava/lang/StackTraceElement;
+-    :cond_29
+-    :goto_29
++    :cond_0
++    :goto_1
+     return-void
+ .end method
+ 
+ .method public startSession(Landroid/app/PendingIntent;Lcom/android/ims/internal/IImsRegistrationListener;)I
+-    .registers 10
++    .locals 7
+     .param p1, "incomingCallIntent"    # Landroid/app/PendingIntent;
+     .param p2, "listener"    # Lcom/android/ims/internal/IImsRegistrationListener;
+ 
+@@ -967,10 +967,10 @@
+ 
+     const/4 v1, -0x1
+ 
+-    if-ne v0, v1, :cond_2f
++    if-ne v0, v1, :cond_0
+ 
+     .line 62
+-    :try_start_5
++    :try_start_0
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+ 
+     iget v1, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mPhoneId:I
+@@ -982,14 +982,14 @@
+     move-result v0
+ 
+     iput v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+-    :try_end_10
+-    .catch Landroid/os/RemoteException; {:try_start_5 .. :try_end_10} :catch_11
++    :try_end_0
++    .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+     .line 69
+-    goto :goto_2f
++    goto :goto_1
+ 
+     .line 63
+-    :catch_11
++    :catch_0
+     move-exception v0
+ 
+     .line 64
+@@ -1013,8 +1013,8 @@
+ 
+     const/4 v4, 0x0
+ 
+-    :goto_21
+-    if-ge v4, v2, :cond_2f
++    :goto_0
++    if-ge v4, v2, :cond_0
+ 
+     aget-object v5, v1, v4
+ 
+@@ -1030,20 +1030,20 @@
+     .end local v5    # "ste":Ljava/lang/StackTraceElement;
+     add-int/lit8 v4, v4, 0x1
+ 
+-    goto :goto_21
++    goto :goto_0
+ 
+     .line 71
+     .end local v0    # "re":Landroid/os/RemoteException;
+     .end local v1    # "exMsg":[Ljava/lang/StackTraceElement;
+-    :cond_2f
+-    :goto_2f
++    :cond_0
++    :goto_1
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+     return v0
+ .end method
+ 
+ .method public turnOffIms()V
+-    .registers 3
++    .locals 2
+ 
+     .line 278
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
+@@ -1057,7 +1057,7 @@
+ .end method
+ 
+ .method public turnOnIms()V
+-    .registers 3
++    .locals 2
+ 
+     .line 271
+     iget-object v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mMainSvc:Lcom/google/ims/GoogleImsService;
