@@ -1,0 +1,12 @@
+diff -urN old/smali/com/sec/ims/ImsRegistration.smali new/smali/com/sec/ims/ImsRegistration.smali
+--- a/smali/com/sec/ims/ImsRegistration.smali	2026-08-16 14:20:32.284850730 +0530
++++ b/smali/com/sec/ims/ImsRegistration.smali	2026-08-16 14:20:32.285593150 +0530
+@@ -124,7 +124,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
