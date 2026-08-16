@@ -75,24 +75,30 @@ adb shell su -c 'mount -o rw,remount /; \
 Clearing the jar's dalvik-cache entry matters - ART otherwise keeps running the
 old dex.
 
-## Still open
+## Follow-up - all resolved in stage 09
 
-**Registration does not start by itself after a normal boot.** Everything
-provisions (CSC parsed, `ON:mmtel`, LTE attached) but no `InitialRegi` is logged
-until the service is restarted with `kill -9`, which reliably triggers
-`tryRegister`. Needs a proper trigger before this is usable day to day.
+Three things were recorded here as open. See
+[stage 09](../09-isim-gate-and-aosp-compat/README.md) for the fixes.
 
-**`Feature` resets to 0 on every reboot.** CSC switches are only applied when the
-MNO changes (`UPD MNO:true`); an unchanged boot logs `UPD MNO:false`, skips the
-CSC parse, and MMTEL ends up off - so `pm clear com.sec.imsservice com.sec.ims`
-is currently needed after each boot.
+**Registration does not start by itself after a normal boot.** Real, and fixed.
+The cause was not a missing trigger: `SimManager.isSimAvailable()` gates every
+register task on `mIsimLoaded`, which is only set from the Samsung-only
+`android.intent.action.ISIM_LOADED` broadcast that AOSP never sends. With
+`ril.hasisim=1` it stayed false forever. `kill -9` was never a trigger - the
+restarted receiver just picked the broadcast up late.
 
-**Other `Sem*` references remain** in paths not exercised by registration, and may
-surface as the same crash pattern in RCS/messaging/entitlement:
+**`Feature` resets to 0 on every reboot.** ~~Needs `pm clear` after each boot.~~
+This was wrong. The switches persist correctly (`imsswitch_0.xml` keeps
+`mmtel=true volte=true`, `imsfeature_0.xml` keeps `volte=1`), and `UPD MNO:false`
+is the normal unchanged-SIM path - the successful registration documented above
+logged `UPD MNO:false` seconds before `InitialRegi`. No `pm clear` is needed.
 
-- `imsmanager.jar`: `TelephonyManagerExt` (SemSystemProperties)
-- `imsservice.apk`: `SoftphoneClient`, `OmcCode`, `MessagingAppInfoReceiver` (x2),
-  `ImsUtil`, `RegistrationGovernorImpl` (SemFloatingFeature)
+**Other `Sem*` references remain.** Real, and swept in stage 09. The list here
+was also incomplete: it missed `UserHandle.SEM_CURRENT`,
+`ToneGenerator.semSetVolume` and `android.os.SemHqmManager`, and it named
+several classes (`SoftphoneClient`, `OmcCode`, `MessagingAppInfoReceiver`,
+`RegistrationGovernorImpl`) that were already safe because `SemCscFeature` and
+`SemFloatingFeature` stubs are bundled in the APK.
 
 ## Note on diagnosis
 

@@ -1,0 +1,11 @@
+--- a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
++++ b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+@@ -711,7 +711,7 @@
+     .line 205
+     const-string v0, "gsm.operator.ispsroaming"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
