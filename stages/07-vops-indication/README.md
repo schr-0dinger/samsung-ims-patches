@@ -56,6 +56,25 @@ One instruction:
 `mVopsIndication` flips `UNKNOWN` -> `SUPPORTED` on the SIM slot (the empty slot
 correctly stays `UNKNOWN`), and it survives a full airplane-mode cycle.
 
+## Clear the IMS databases after changing CSC
+
+The stack caches its service switches in the `com.sec.imsservice` /`com.sec.ims`
+databases and does not re-read them once written. A device that first booted
+without CSC stores `mmtel=0`, and `VolteServiceModule.updateFeature()` then logs
+`Update Feature [... Feature: 0]` forever - no features, so nothing to register -
+even after CSC is fixed. `DmConfigHelper.getImsSwitchValue()` returning 1 does not
+help, because the second half of the gate is `readSwitch("mmtel", default=true)`,
+and `readSwitch` only falls back to the default when *nothing* is stored.
+
+```bash
+adb shell pm clear com.sec.imsservice
+adb shell pm clear com.sec.ims
+adb reboot
+```
+
+Verified: `Feature: 0` -> non-zero after clearing and rebooting. Do this after any
+CSC change, or the new profile is ignored.
+
 ## Not sufficient on its own
 
 With VoPS correct and every `PdnController` precondition satisfied
