@@ -1,0 +1,12 @@
+diff -urN old/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali new/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali
+--- a/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali	2026-08-16 13:05:13.659925290 +0530
++++ b/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali	2026-08-16 13:05:13.660890650 +0530
+@@ -313,7 +313,7 @@
+ .method public getLteImsVoiceAvail()I
+     .registers 2
+ 
+-    const/4 v0, 0x1
++    const/4 v0, 0x2
+ 
+     return v0
+ .end method
