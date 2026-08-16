@@ -1,0 +1,15 @@
+# The scripts here run under WSL through /mnt/c, and the patches apply to smali
+# that is LF throughout. A CRLF checkout breaks both: bash reports
+# "'bash\r': No such file or directory", and a CRLF patch will not apply to an
+# LF tree. Pin everything to LF regardless of core.autocrlf on the clone.
+* text=auto eol=lf
+
+*.sh      text eol=lf
+*.md      text eol=lf
+*.patch   text eol=lf
+*.csv     text eol=lf
+SHA1SUMS  text eol=lf
+
+*.apk     binary
+*.jar     binary
+*.dex     binary
