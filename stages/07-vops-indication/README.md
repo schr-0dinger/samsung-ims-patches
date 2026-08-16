@@ -87,6 +87,51 @@ gate between "preconditions met" and "request the IMS PDN". Next places to look:
 - whether the framework ever drives `turnOnIms` / `changeEnabledCapabilities`
   into `com.sec.internal.google.GoogleImsServiceAdapter` - no such log lines appear
 
+## Where registration still stops (traced, not yet fixed)
+
+With CSC correct, VoPS `SUPPORTED` and `Feature` non-zero, registration still
+never starts. The chain, from `RegistrationManagerBase`:
+
+```
+onSimReady(absent, phoneId)
+  -> GlobalSettingsInternal.getBoolean(ctx, phoneId, "ims_enabled")
+       false -> "IMS is disabled. Do not load profiles" -> return
+  -> otherwise loads profiles into SlotBasedConfig
+buildTask(phoneId)
+  -> SlotBasedConfig.getInstance(phoneId).getProfiles()
+       empty -> "buildTask: no profile found." -> return
+  -> otherwise creates a RegisterTask
+RegistrationGovernorImpl.isReadyToRegister(phoneId)   (tag RegiGvnImpl)
+PdnController.requestNetwork(...)  -> ConnectivityManager.requestNetwork
+```
+
+Observed: `dumpsys secims` lists **no IMS profiles** (only RCS `joyn_cpr` from
+Autoconfig), `RegisterTask(s)` is empty, `PdnController`'s EventLog holds only
+`Service Up`, the `ims` apnContext stays `enabled=false`, `pcscf=[]` and the SIP
+history is empty. So execution stops at or before `buildTask`'s profile check.
+
+`ims_enabled` is not an Android setting - it lives in the stack's own
+`GlobalSettingsRepo` (`com.sec.ims.settings`), which shell cannot read, and
+`CscParser` is what maps `customer.xml`'s `<EnableIMS>` onto it.
+
+### Blocked on visibility
+
+`IMSLog.d` calls `android.util.Log.d` unguarded, yet the service emits no
+operational lines to logcat (only auditd/SELinux denials), so "did this method
+run" cannot be answered from logcat. The service writes its own log at
+`/data/log/imscr.log.*` - root-only, and Magisk is gone after flashing.
+
+Next step is root, then:
+
+```bash
+su -c 'cat /data/log/imscr.log.0'                      # real IMS diagnostics
+su -c 'sqlite3 /data/data/com.sec.imsservice/databases/*.db ".tables"'   # is ims_enabled set?
+```
+
+Patching `GlobalSettingsInternal.getBoolean` to force `ims_enabled` true would be
+the blind fix, but confirm the value first - if profiles are missing for another
+reason, that patch changes nothing.
+
 ## Caveat
 
 This hardcodes "supported" rather than reading the real value. That is accurate
